@@ -7,7 +7,7 @@ Cell** map;
 
 int size_screen_x;
 int size_screen_y;
-int size_map_x = 93;
+int size_map_x = 90;
 int size_map_y = 45;
 int size_cell;
 int size_half_cell;
