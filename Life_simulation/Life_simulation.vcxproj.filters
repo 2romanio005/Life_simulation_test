@@ -33,9 +33,6 @@
     <ClCompile Include="Cell.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Сonditions.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Definition.h">
@@ -47,13 +44,10 @@
     <ClInclude Include="Cell.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Сonditions.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Actions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="MainСonnection.h">
+    <ClInclude Include="MainConnection.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">

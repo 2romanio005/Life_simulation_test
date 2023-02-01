@@ -1,5 +1,5 @@
-#include "Definition.h"
-#include "MainСonnection.h"
+п»ї#include "Definition.h"
+#include "MainConnection.h"
 #include "resource.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)  // обработка событий
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)  // РѕР±СЂР°Р±РѕС‚РєР° СЃРѕР±С‹С‚РёР№
 {
 	switch (message)
 	{
@@ -71,20 +71,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 
 		switch (LOWORD(wParam)) {
-		case SB_LINERIGHT:     // стрелочки
+		case SB_LINERIGHT:     // СЃС‚СЂРµР»РѕС‡РєРё
 			(*pos)++;
 			break;
-		case SB_LINELEFT:     // стрелочки
+		case SB_LINELEFT:     // СЃС‚СЂРµР»РѕС‡РєРё
 			(*pos)--;
 			break;
-		case SB_PAGERIGHT:     // пустая область
+		case SB_PAGERIGHT:     // РїСѓСЃС‚Р°СЏ РѕР±Р»Р°СЃС‚СЊ
 			(*pos) += one_step;
 			break;
-		case SB_PAGELEFT:     // пустая область
+		case SB_PAGELEFT:     // РїСѓСЃС‚Р°СЏ РѕР±Р»Р°СЃС‚СЊ
 			(*pos) -= one_step;
 			break;
-		case SB_THUMBTRACK:    // тянем за ползунок
-		//case SB_THUMBPOSITION:  // отпускаем ползунок
+		case SB_THUMBTRACK:    // С‚СЏРЅРµРј Р·Р° РїРѕР»Р·СѓРЅРѕРє
+		//case SB_THUMBPOSITION:  // РѕС‚РїСѓСЃРєР°РµРј РїРѕР»Р·СѓРЅРѕРє
 			(*pos) = HIWORD(wParam);
 			break;
 		}
@@ -126,7 +126,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case IndexButtonReset:
 		{
 			SetFocus(hWnd);
-			if (MessageBoxA(hWnd, "Вы уверены, что хотите пересоздать мир? Все несохранённые данные будут утеряны.", "Внимание!", MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) == IDOK) {
+			if (MessageBoxA(hWnd, "Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ РїРµСЂРµСЃРѕР·РґР°С‚СЊ РјРёСЂ? Р’СЃРµ РЅРµСЃРѕС…СЂР°РЅС‘РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ Р±СѓРґСѓС‚ СѓС‚РµСЂСЏРЅС‹.", "Р’РЅРёРјР°РЅРёРµ!", MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) == IDOK) {
 				StopStep(hWnd);
 				
 				DestroyObject();
@@ -172,18 +172,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case IndexButtonSafeCrt:
 		{
 			SetFocus(hWnd);
-			if (peep_Creature == nullptr) { MessageBoxA(hWnd, "Существо не выбрано.", "Внимание!", MB_OK | MB_ICONEXCLAMATION); break; }
+			if (peep_Creature == nullptr) { MessageBoxA(hWnd, "РЎСѓС‰РµСЃС‚РІРѕ РЅРµ РІС‹Р±СЂР°РЅРѕ.", "Р’РЅРёРјР°РЅРёРµ!", MB_OK | MB_ICONEXCLAMATION); break; }
 
 			bool flag_step = FlagStop;
 			StopStep(hWnd);
 
 			OPENFILENAMEA ofn;
 			char PathSafeCrt[260]{};
-			SetOpenFileParams(hWnd, &ofn, PathSafeCrt, ".crt", "Существо(*.crt)\0*.crt\0", OFN_PATHMUSTEXIST);
+			SetOpenFileParams(hWnd, &ofn, PathSafeCrt, ".crt", "РЎСѓС‰РµСЃС‚РІРѕ(*.crt)\0*.crt\0", OFN_PATHMUSTEXIST);
 
 			if (GetSaveFileNameA(&ofn)) {
 				if (CheckExpansion(PathSafeCrt + ofn.nFileExtension, "crt")) {
-					MessageBoxA(hWnd, "Ошибка открытия файла. Неправильное расширение файла. Требуется: *.crt", "Ошибка!", MB_OK | MB_ICONERROR);
+					MessageBoxA(hWnd, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. РќРµРїСЂР°РІРёР»СЊРЅРѕРµ СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°. РўСЂРµР±СѓРµС‚СЃСЏ: *.crt", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 				}
 				else {
 					//std::string str_to_write = peep_Creature->write_myself();
@@ -198,10 +198,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					fout.open(PathSafeCrt);
 					try {
 						fout << peep_Creature->write_myself();
-						MessageBoxA(hWnd, "Существо успешно сохранено.", "Успех!", MB_OK | MB_ICONINFORMATION);
+						MessageBoxA(hWnd, "РЎСѓС‰РµСЃС‚РІРѕ СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅРµРЅРѕ.", "РЈСЃРїРµС…!", MB_OK | MB_ICONINFORMATION);
 					}
 					catch (...) {
-						MessageBoxA(hWnd, "Ошибка записи в файл. Неизвестная ошибка.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° Р·Р°РїРёСЃРё РІ С„Р°Р№Р». РќРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 					fout.close();
 				}
@@ -218,11 +218,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			OPENFILENAMEA ofn;
 			char PathLoadCrt[260]{};
-			SetOpenFileParams(hWnd, &ofn, PathLoadCrt, ".crt", "Существо(*.crt)\0*.crt\0", OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST);
+			SetOpenFileParams(hWnd, &ofn, PathLoadCrt, ".crt", "РЎСѓС‰РµСЃС‚РІРѕ(*.crt)\0*.crt\0", OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST);
 
 			if (GetOpenFileNameA(&ofn)) {
 				if (CheckExpansion(PathLoadCrt + ofn.nFileExtension, "crt")) {
-					MessageBoxA(hWnd, "Ошибка открытия файла. Неправильное расширение файла. Требуется: *.crt", "Ошибка!", MB_OK | MB_ICONERROR);
+					MessageBoxA(hWnd, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. РќРµРїСЂР°РІРёР»СЊРЅРѕРµ СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°. РўСЂРµР±СѓРµС‚СЃСЏ: *.crt", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 				}
 				else {
 					std::ifstream fin;
@@ -252,10 +252,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					}
 					catch (const std::out_of_range& oor)
 					{
-						MessageBoxA(hWnd, "Ошибка чтения файла. Файл неожиданно закончился. Проверьте целостность файла.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р°. Р¤Р°Р№Р» РЅРµРѕР¶РёРґР°РЅРЅРѕ Р·Р°РєРѕРЅС‡РёР»СЃСЏ. РџСЂРѕРІРµСЂСЊС‚Рµ С†РµР»РѕСЃС‚РЅРѕСЃС‚СЊ С„Р°Р№Р»Р°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 					catch (...) {
-						MessageBoxA(hWnd, "Ошибка чтения файла. Неизвестная ошибка.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р°. РќРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 					fin.close();
 				}
@@ -273,11 +273,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			OPENFILENAMEA ofn;
 			char PathSafeMap[260]{};
-			SetOpenFileParams(hWnd, &ofn, PathSafeMap, ".map", "Мир(*.map)\0*.map\0", OFN_PATHMUSTEXIST);
+			SetOpenFileParams(hWnd, &ofn, PathSafeMap, ".map", "РњРёСЂ(*.map)\0*.map\0", OFN_PATHMUSTEXIST);
 
 			if (GetSaveFileNameA(&ofn)) {
 				if (CheckExpansion(PathSafeMap + ofn.nFileExtension, "map")) {
-					MessageBoxA(hWnd, "Ошибка открытия файла. Неправильное расширение файла. Требуется: *.map", "Ошибка!", MB_OK | MB_ICONERROR);
+					MessageBoxA(hWnd, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. РќРµРїСЂР°РІРёР»СЊРЅРѕРµ СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°. РўСЂРµР±СѓРµС‚СЃСЏ: *.map", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 				}
 				else {
 					//HANDLE FileToWrite = CreateFileA(PathSafeMap, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -317,7 +317,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					}
 					fout.close();
 
-					MessageBoxA(hWnd, "Мир успешно сохранён.", "Успех!", MB_OK | MB_ICONINFORMATION);
+					MessageBoxA(hWnd, "РњРёСЂ СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅС‘РЅ.", "РЈСЃРїРµС…!", MB_OK | MB_ICONINFORMATION);
 				}
 			}
 
@@ -331,17 +331,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			OPENFILENAMEA ofn;
 			char PathLoadMap[260]{};
-			SetOpenFileParams(hWnd, &ofn, PathLoadMap, ".map", "Мир(*.map)\0*.map\0", OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST);
+			SetOpenFileParams(hWnd, &ofn, PathLoadMap, ".map", "РњРёСЂ(*.map)\0*.map\0", OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST);
 
 			if (GetOpenFileNameA(&ofn)) {
 				if (CheckExpansion(PathLoadMap + ofn.nFileExtension, "map")) {
-					MessageBoxA(hWnd, "Ошибка открытия файла. Неправильное расширение файла. Требуется: *.map", "Ошибка!", MB_OK | MB_ICONERROR);
+					MessageBoxA(hWnd, "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. РќРµРїСЂР°РІРёР»СЊРЅРѕРµ СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°. РўСЂРµР±СѓРµС‚СЃСЏ: *.map", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 				}
 				else {
 					std::ifstream fin;
 					fin.open(PathLoadMap);
 					std::string str_to_read;
-					std::getline(fin, str_to_read);  // размеры карты и текущий шаг
+					std::getline(fin, str_to_read);  // СЂР°Р·РјРµСЂС‹ РєР°СЂС‚С‹ Рё С‚РµРєСѓС‰РёР№ С€Р°Рі
 
 					Cell** load_map = nullptr;
 					int load_size_map_x, load_size_map_y, iter = 0;
@@ -350,7 +350,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					long long LoadCountStep = 0;
 
 					try {
-						while (str_to_read[iter] != ';') {    // !!!!!!!!!!!!!!!!!!!!!!!  чтение long long переменной
+						while (str_to_read[iter] != ';') {    // !!!!!!!!!!!!!!!!!!!!!!!  С‡С‚РµРЅРёРµ long long РїРµСЂРµРјРµРЅРЅРѕР№
 							LoadCountStep = LoadCountStep * 10 + str_to_read.at(iter) - '0';
 							iter++;
 						}
@@ -419,7 +419,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						UpdateSizeScreen(hWnd, size_screen_x, size_screen_y, true);
 					}
 					catch (int read_size_map_error) {
-						MessageBoxA(hWnd, "Ошибка чтения файла. Не удалось прочитать данные о номере хода, размерах мира и положениях слайдеров. Проверьте целостность первой строки файла.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р°. РќРµ СѓРґР°Р»РѕСЃСЊ РїСЂРѕС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ Рѕ РЅРѕРјРµСЂРµ С…РѕРґР°, СЂР°Р·РјРµСЂР°С… РјРёСЂР° Рё РїРѕР»РѕР¶РµРЅРёСЏС… СЃР»Р°Р№РґРµСЂРѕРІ. РџСЂРѕРІРµСЂСЊС‚Рµ С†РµР»РѕСЃС‚РЅРѕСЃС‚СЊ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё С„Р°Р№Р»Р°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 					catch (const std::out_of_range& oor)
 					{
@@ -431,7 +431,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						delete[] load_map;
 						load_map = nullptr;
 
-						MessageBoxA(hWnd, "Ошибка чтения файла. Файл неожиданно закончился. Проверьте целостность файла.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р°. Р¤Р°Р№Р» РЅРµРѕР¶РёРґР°РЅРЅРѕ Р·Р°РєРѕРЅС‡РёР»СЃСЏ. РџСЂРѕРІРµСЂСЊС‚Рµ С†РµР»РѕСЃС‚РЅРѕСЃС‚СЊ С„Р°Р№Р»Р°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 					catch (...) {
 						for (int i = 0; i < load_size_map_x; i++)
@@ -442,7 +442,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						delete[] load_map;
 						load_map = nullptr;	
 
-						MessageBoxA(hWnd, "Ошибка чтения файла. Неизвестная ошибка.", "Ошибка!", MB_OK | MB_ICONERROR);
+						MessageBoxA(hWnd, "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р°. РќРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°.", "РћС€РёР±РєР°!", MB_OK | MB_ICONERROR);
 					}
 
 					fin.close();
@@ -496,7 +496,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		//Rectangle(MainHdc, 120, 30, 230, 230);
 		EndPaint(hWnd, &MainPs);
 
-		if (!position_WM_SETREDRAW) { SendMessage(hWnd, WM_SETREDRAW, false, 0); }  // убрать отрисовку если она не нужна
+		if (!position_WM_SETREDRAW) { SendMessage(hWnd, WM_SETREDRAW, false, 0); }  // СѓР±СЂР°С‚СЊ РѕС‚СЂРёСЃРѕРІРєСѓ РµСЃР»Рё РѕРЅР° РЅРµ РЅСѓР¶РЅР°
 
 		break;
 	}
@@ -562,7 +562,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						DestroyWindow(act.first);
 					}
 					StaticPeepBrain.clear();
-					SetWindowTextA(StaticPeepData, LPCSTR("Энергия: 0  Энергия деления: 0  Возраст: 0  Направление: -  Действие: 0  Живо: нет"));
+					SetWindowTextA(StaticPeepData, LPCSTR("Р­РЅРµСЂРіРёСЏ: 0  Р­РЅРµСЂРіРёСЏ РґРµР»РµРЅРёСЏ: 0  Р’РѕР·СЂР°СЃС‚: 0  РќР°РїСЂР°РІР»РµРЅРёРµ: -  Р”РµР№СЃС‚РІРёРµ: 0  Р–РёРІРѕ: РЅРµС‚"));
 				}
 			}
 
@@ -616,7 +616,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		SendMessage(hWnd, WM_SETREDRAW, true, 0);
 		position_WM_SETREDRAW = true;
 
-		if(size_cell == MinSizeCell || (size_cell * size_map_y + 3 * margin_y + 136) < height_right_interface){  // это чтобы самый маленький экран отрисовался когда ты отпустил
+		if(size_cell == MinSizeCell || (size_cell * size_map_y + 3 * margin_y + 136) < height_right_interface){  // СЌС‚Рѕ С‡С‚РѕР±С‹ СЃР°РјС‹Р№ РјР°Р»РµРЅСЊРєРёР№ СЌРєСЂР°РЅ РѕС‚СЂРёСЃРѕРІР°Р»СЃСЏ РєРѕРіРґР° С‚С‹ РѕС‚РїСѓСЃС‚РёР»
 			InvalidateRect(hWnd, NULL, true);
 
 			UpdateWidget();
@@ -626,7 +626,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	case WM_SIZE:
 	{
-		UpdateSizeScreen(hWnd, LOWORD(lParam), HIWORD(lParam));   // это можно перенести в WM_EXITSIZEMOVE только нужно получать размеры экрана
+		UpdateSizeScreen(hWnd, LOWORD(lParam), HIWORD(lParam));   // СЌС‚Рѕ РјРѕР¶РЅРѕ РїРµСЂРµРЅРµСЃС‚Рё РІ WM_EXITSIZEMOVE С‚РѕР»СЊРєРѕ РЅСѓР¶РЅРѕ РїРѕР»СѓС‡Р°С‚СЊ СЂР°Р·РјРµСЂС‹ СЌРєСЂР°РЅР°
 		return 0;
 	}
 

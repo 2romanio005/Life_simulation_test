@@ -145,16 +145,14 @@
     <ClCompile Include="Declaration.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="Life_simulation.cpp" />
-    <ClCompile Include="Сonditions.cpp" />
     <ClCompile Include="Creatures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Definition.h" />
-    <ClInclude Include="MainСonnection.h" />
+    <ClInclude Include="MainConnection.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Сonditions.h" />
     <ClInclude Include="Creatures.h" />
   </ItemGroup>
   <ItemGroup>

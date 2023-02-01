@@ -1,10 +1,10 @@
-#include "Creatures.h"
-#include "MainСonnection.h"
+п»ї#include "Creatures.h"
+#include "MainConnection.h"
 
 
 /*
 
-Creature::Сondition::Сondition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature found_type_creature, int found_level_under, void (*Action)(Creature* creature)) {
+Creature::Condition::Condition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature found_type_creature, int found_level_under, void (*Action)(Creature* creature)) {
 	this->power = power;
 	this->power_step = 1;
 	this->true_iter = true_iter;
@@ -19,7 +19,7 @@ Creature::Сondition::Сondition(int power, int true_iter, int false_iter, Creatur
 
 
 
-bool Creature::Сondition::use(int power_step) {
+bool Creature::Condition::use(int power_step) {
 	if (this->creature->get_Type_Creature() == Type_Creature::Herbivore) {
  		int a = 0;
 	}
@@ -36,7 +36,7 @@ bool Creature::Сondition::use(int power_step) {
 		return false;
 	}
 
-	if (this->Cond()) {       // пофиксить когда после условия пришло к действию и не доделает его до конца тк уже потратил степы  !!!!!!!!!!!
+	if (this->Cond()) {       // РїРѕС„РёРєСЃРёС‚СЊ РєРѕРіРґР° РїРѕСЃР»Рµ СѓСЃР»РѕРІРёСЏ РїСЂРёС€Р»Рѕ Рє РґРµР№СЃС‚РІРёСЋ Рё РЅРµ РґРѕРґРµР»Р°РµС‚ РµРіРѕ РґРѕ РєРѕРЅС†Р° С‚Рє СѓР¶Рµ РїРѕС‚СЂР°С‚РёР» СЃС‚РµРїС‹  !!!!!!!!!!!
 		creature->iter = true_iter;
 	}
 	else {
@@ -45,12 +45,12 @@ bool Creature::Сondition::use(int power_step) {
 	return true;
 }
 
-void Creature::Сondition::set_creature(Creature* creature)
+void Creature::Condition::set_creature(Creature* creature)
 {
 	this->creature = creature;
 }
 
-bool Creature::Сondition::Cond()
+bool Creature::Condition::Cond()
 {
 	if (this->to_dir == Direction::UNDER) {
 		switch (this->creature->get_Type_Creature())
@@ -95,7 +95,7 @@ std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, Direction t
 	case Direction::LEFT:
 		now_map_cord.first = (now_map_cord.first - 1 + size_map_x) % size_map_x;
 		break;
-	case Direction::UNDER:// так хорошо
+	case Direction::UNDER:// С‚Р°Рє С…РѕСЂРѕС€Рѕ
 		break;
 	}
 	return now_map_cord;
@@ -187,9 +187,9 @@ Creature::Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Dir
 	else {
 		for (auto& act : *brain)
 		{
-			act->set_Creature(this);    // пометил как свой
+			act->set_Creature(this);    // РїРѕРјРµС‚РёР» РєР°Рє СЃРІРѕР№
 		}
-		this->brain = *brain;    // скопировал мозг и хранит как свой
+		this->brain = *brain;    // СЃРєРѕРїРёСЂРѕРІР°Р» РјРѕР·Рі Рё С…СЂР°РЅРёС‚ РєР°Рє СЃРІРѕР№
 	}
 }
 
@@ -205,7 +205,7 @@ Creature::~Creature()
 void Creature::step() {
 	if (this->flag_step) {
 		this->flag_step = false;
-		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {};   // цикл для прокрутки условий 
+		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {};   // С†РёРєР» РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё СѓСЃР»РѕРІРёР№ 
 
 		int tmp = 0;
 		switch (this->get_Type_Creature())
@@ -252,7 +252,7 @@ void Creature::one_step_finish()
 
 			int new_lim_energy = this->lim_energy;
 
-			if (rand() % 100 < mut_chence) {    // мутация
+			if (rand() % 100 < mut_chence) {    // РјСѓС‚Р°С†РёСЏ
 				//this->create_Action(rand() % (this->brain.size() + 1), br);
 				this->create_Action(rand() % max(this->brain.size() + 1, 100), br);
 			}
@@ -281,7 +281,7 @@ void Creature::one_step_finish()
 		}
 
 
-		/*Direction rand_dir = Direction((rand() % 4) - 4);     // вариант с просмотром вариантов со всех сторон
+		/*Direction rand_dir = Direction((rand() % 4) - 4);     // РІР°СЂРёР°РЅС‚ СЃ РїСЂРѕСЃРјРѕС‚СЂРѕРј РІР°СЂРёР°РЅС‚РѕРІ СЃРѕ РІСЃРµС… СЃС‚РѕСЂРѕРЅ
 		for (int i = 0; i < 4; i++)
 		{
 			Direction test_dir = turn(Direction(i), rand_dir);
@@ -294,10 +294,10 @@ void Creature::one_step_finish()
 				this->energy /= 2;
 
 				Cell* free_place = free_place = this->see[test_dir][0];
-				std::vector<Creature_Scavenger::Сondition> br = this->brain;
+				std::vector<Creature_Scavenger::Condition> br = this->brain;
 				int new_lim_energy = this->lim_energy;
 
-				if (rand() % 100 < mut_chence) {    // мутация
+				if (rand() % 100 < mut_chence) {    // РјСѓС‚Р°С†РёСЏ
 					this->create_Action(rand() % (this->brain.size() + 1), &br);
 					if (rand() % 2) {
 						new_lim_energy = rand() % limit_energy;
@@ -444,10 +444,10 @@ int Creature::get_brain_size()
 }
 
 
-void Creature::create_Action(unsigned int mut_iter, std::vector<Action*>* change_brain)   // !!!!!!!!!!!!!!! название
+void Creature::create_Action(unsigned int mut_iter, std::vector<Action*>* change_brain)   // !!!!!!!!!!!!!!! РЅР°Р·РІР°РЅРёРµ
 {
 	if (change_brain->size() > mut_iter) {
-		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {   // изменить весь ген / часть его
+		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {   // РёР·РјРµРЅРёС‚СЊ РІРµСЃСЊ РіРµРЅ / С‡Р°СЃС‚СЊ РµРіРѕ
 			delete (*change_brain)[mut_iter];
 			(*change_brain)[mut_iter] = get_rand_Action(this, change_brain->size());
 		}

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "MainСonnection.h"
+#include "MainConnection.h"
 #include "Actions.h"
 
 
@@ -676,10 +676,10 @@ Type_Action Action_change_iter::get_Type_Action()
 
 /*
 
-class Сondition
+class Condition
 	{
 	public:
-		Сondition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature type_creature, int found_level_under, void (*Action)(Creature* creature) = nullptr);
+		Condition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature type_creature, int found_level_under, void (*Action)(Creature* creature) = nullptr);
 
 		bool use(int power_step);
 
@@ -691,7 +691,7 @@ class Сondition
 		int found_level_under;
 
 		//bool (*Action)(Creature* creature, Direction dir, Cell* cell);
-		//bool (*Сond)(Creature* creature, Direction dir, Type_Creature type_creature);
+		//bool (*Cond)(Creature* creature, Direction dir, Type_Creature type_creature);
 
 		int power;      // количество повторений этого действия за дин ход
 		int power_step;
