@@ -66,7 +66,7 @@ public:
 	virtual Type_Creature get_Type_Creature() = 0;
 
 protected:
-	void create_Action(unsigned int mut_iter, std::vector<Action*>* brain);
+	void brain_mutation(unsigned int mut_iter, std::vector<Action*>* brain);
 
 	Cell* get_under_me();
 
@@ -86,6 +86,7 @@ protected:
 	
 	friend class Action_go;
 	friend class Action_eat;
+	friend class Action_multiply;
 	friend class Action_turn;
 	friend class Action_condition_by_Type_Creature;
 	friend class Action_condition_by_Cell;

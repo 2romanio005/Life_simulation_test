@@ -6,10 +6,11 @@ enum Type_Action
 {
 	GO,
 	EAT,
+	MULTIPLY,
 	TURN,
 	CONDITION_BY_TYPE_CREATURE,
 	CONDITION_BY_CELL,
-	CHANGE_ITER
+	CHANGE_ITER   // не испльзуется
 };
 
 
@@ -24,7 +25,7 @@ public:
 	virtual Action* copy() = 0;
 
 	virtual std::string* draw_myself() = 0;
-	virtual void write_myself(std::string* out) = 0;
+	virtual void write_myself(std::string* out);
 
 	virtual Type_Action get_Type_Action() = 0;
 
@@ -45,7 +46,6 @@ public:
 	Action* copy() override;
 
 	std::string* draw_myself() override;
-	void write_myself(std::string* out) override;
 
 	Type_Action get_Type_Action() override;
 };
@@ -59,11 +59,22 @@ public:
 	Action* copy() override;
 
 	std::string* draw_myself() override;
-	void write_myself(std::string* out) override;
 
 	Type_Action get_Type_Action() override;
 };
 
+class Action_multiply : public Action {
+public:
+	Action_multiply(Creature* creature);
+
+	bool use() override;
+
+	Action* copy() override;
+
+	std::string* draw_myself() override;
+
+	Type_Action get_Type_Action() override;
+};
 
 class Action_turn : public Action {
 public:

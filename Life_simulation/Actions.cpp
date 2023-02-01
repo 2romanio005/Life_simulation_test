@@ -101,35 +101,29 @@ std::string string_by_type_creature(Type_Creature type_creature)
 
 
 Action* get_rand_Action(Creature* creature, unsigned int max_iter) {
-	switch (rand() % 5)
+	switch (rand() % Type_Action::CONDITION_BY_CELL + 1)
 	{
-	case 0:
+	case Type_Action::GO:
 		return new Action_go(creature);
-		break;
-	case 1:
+	case Type_Action::EAT:
 		return new Action_eat(creature);
-		break;
-	case 2:
+	case Type_Action::MULTIPLY:
+		return new Action_multiply(creature);
+	case Type_Action::TURN:
 		return new Action_turn(creature, Direction(rand() % 3 - 3));
-		break;
-	case 3:
+	case Type_Action::CONDITION_BY_TYPE_CREATURE:
 		return new Action_condition_by_Type_Creature(creature, Direction(rand() % 4 - 4), rand() % max_iter, rand() % max_iter, Type_Creature(rand() % 4));
-		break;
-	case 4:
+	case Type_Action::CONDITION_BY_CELL:
 	{
-		/*bool (*cond)(int one, int two) = [](int one, int two)->bool { return one >= two; };
-		if (rand() % 2) {
-			cond = [](int one, int two)->bool { return one >= two; };
-		}*/
 		int tmp = (rand() % 5);
 		return new Action_condition_by_Cell(creature, Direction(tmp == 4 ? 4 : tmp - 4), rand() % max_iter, rand() % max_iter, rand() % limit_energy);
-		break;
 	}
-	//case 5:
+	//case Type_Action::CHANGE_ITER:
 	//	return new Action_change_iter(creature, rand() % max_iter);
 	//	break;
+	default:
+		throw;
 	}
-	
 }
 
 
@@ -144,6 +138,13 @@ bool Action::mutation()
 	return false;
 }
 
+void Action::write_myself(std::string* out)
+{
+	*out +=
+		std::to_string(this->get_Type_Action())
+		+ ";0;0;0;0;";
+}
+
 void Action::set_Creature(Creature* creature)
 {
 	this->creature = creature;
@@ -155,7 +156,7 @@ std::pair<std::string, int>* Action::build_draw(){
 
 	for (int i = 0; i < 5; i++)
 	{
-		out->second = max(sample[i].size(), out->second);
+		out->second = max(int(sample[i].size()), out->second);
 		(*out).first += sample[i] + '\n';
 	}
 
@@ -198,13 +199,6 @@ std::string* Action_go::draw_myself()
 			""
 		}
 	;
-}
-
-void Action_go::write_myself(std::string* out)
-{
-	*out += 
-		std::to_string(this->get_Type_Action())
-		+ ";0;0;0;0;";
 }
 
 Type_Action Action_go::get_Type_Action()
@@ -285,16 +279,87 @@ std::string* Action_eat::draw_myself()
 		};
 }
 
-void Action_eat::write_myself(std::string* out)
-{
-	*out += 
-		std::to_string(this->get_Type_Action())
-		+ ";0;0;0;0;";
-}
-
 Type_Action Action_eat::get_Type_Action()
 {
 	return Type_Action::EAT;
+}
+
+
+Action_multiply::Action_multiply(Creature* creature) : Action(creature)
+{
+}
+
+bool Action_multiply::use()
+{
+	//switch (creature->get_Type_Creature())
+	//{
+	//case Type_Creature::Plant:
+	//{
+	//	//creature->energy += max(limit_energy - (creature->get_under_me()->free_energy += 30), 0);
+	//	//int tmp = max(400 - this->creature->get_under_me()->get_free_energy(), 0);
+	//	//int tmp = (limit_energy / 15 - creature->get_under_me()->get_free_energy());
+	//	//int tmp = (limit_energy - creature->get_under_me()->get_free_energy()) / 7;
+	//	//int tmp = (limit_energy - creature->get_under_me()->get_free_energy() * 15);
+	//	int tmp = limit_energy - creature->get_under_me()->get_free_energy() * (100 - PosSliderGreenEat);
+	//	if (tmp < 0) tmp = 0;
+	//	this->creature->energy += tmp;
+	//	//creature->get_under_me()->change_free_energy(1);
+	//	break;
+	//}
+	//case Type_Creature::Herbivore:
+	//{
+	//	Cell* next_cell = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
+
+	//	if (next_cell->get_Type_Creature() != Type_Creature::Void) {
+	//		int out = next_cell->get_Creature_energy();
+	//		next_cell->set_Creature();
+
+	//		next_cell->change_free_energy((out * PosSliderRedLeave) / 100);
+	//		this->creature->energy += (out * PosSliderRedEat) / 100;
+	//	}
+	//	break;
+	//}
+	//case Type_Creature::Scavenger:
+	//{
+	//	//creature->energy += max(creature->get_under_me()->free_energy, 0);
+	//	//creature->get_under_me()->free_energy = 0;
+
+	//	//int tmp = min(creature->get_under_me()->get_free_energy(), 400);
+	//	//int tmp = creature->get_under_me()->get_free_energy() / 6;
+	//	int tmp = creature->get_under_me()->get_free_energy();
+	//	if (tmp > 50) {
+	//		tmp = (tmp * PosSliderBlueEat) / 100;
+	//	}
+	//	this->creature->energy += tmp;
+	//	this->creature->get_under_me()->change_free_energy(-tmp);
+	//	break;
+	//}
+	//}
+
+	this->creature->next_iter();
+	return true;
+}
+
+Action* Action_multiply::copy()
+{
+	return new Action_multiply(this->creature);
+}
+
+std::string* Action_multiply::draw_myself()
+{
+	return new std::string[5]
+	{
+		"Размн",
+		"",
+		"",
+		"",
+		""
+	};
+}
+
+Type_Action Action_multiply::get_Type_Action()
+{
+	return Type_Action::MULTIPLY;
 }
 
 
@@ -703,5 +768,4 @@ class Condition
 		bool Cond();
 	};
 */
-
 

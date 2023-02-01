@@ -60,7 +60,10 @@ extern int size_half_cell;
 #define mut_chence 10 // %
 #define mut_type_chence 0 // %
 
+#define	max_brain_size 100
+
 #define start_energy 700
+#define start_max_len_brain 4
 
 
 
@@ -81,6 +84,7 @@ class Creature_Scavenger;
 enum Type_Action;
 class Action;
 class Action_go;
+class Action_multiply;
 class Action_eat;
 class Action_turn;
 class Action_condition_by_Type_Creature;

@@ -148,13 +148,12 @@ Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string
 	{
 	case Plant:
 		return new Creature_Plant(map_cord, energy, lim_energy, dir, age, &br, br_iter);
-		break;
 	case Herbivore:
 		return new Creature_Herbivore(map_cord, energy, lim_energy, dir, age, &br, br_iter);
-		break;
 	case Scavenger:
 		return new Creature_Scavenger(map_cord, energy, lim_energy, dir, age, &br, br_iter);
-		break;
+	default:
+		throw;
 	}
 }
 
@@ -182,7 +181,7 @@ Creature::Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Dir
 	this->flag_step = true;
 
 	if (brain == nullptr) {
-		this->create_Action((rand() % 4) + 1, &this->brain);
+		this->brain_mutation((rand() % start_max_len_brain) + 1, &this->brain);
 	}
 	else {
 		for (auto& act : *brain)
@@ -205,9 +204,12 @@ Creature::~Creature()
 void Creature::step() {
 	if (this->flag_step) {
 		this->flag_step = false;
-		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {};   // цикл для прокрутки условий 
+		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {   // цикл для прокрутки действий, не завершаюших ход 
+			this->next_iter();
+		};  
+		this->next_iter();
 
-		int tmp = 0;
+		int tmp = 0;   // количество существ моего ипа
 		switch (this->get_Type_Creature())
 		{
 		case Type_Creature::Plant:
@@ -253,8 +255,9 @@ void Creature::one_step_finish()
 			int new_lim_energy = this->lim_energy;
 
 			if (rand() % 100 < mut_chence) {    // мутация
-				//this->create_Action(rand() % (this->brain.size() + 1), br);
-				this->create_Action(rand() % max(this->brain.size() + 1, 100), br);
+				//this->brain_mutation(rand() % (this->brain.size() + 1), br);
+				int mut_iter = rand() % (this->brain.size() + 1);
+				this->brain_mutation(min(mut_iter, max_brain_size), br);
 			}
 			if (rand() % 20 == 0) {
 				new_lim_energy = (rand() % limit_energy) + 5;
@@ -298,7 +301,7 @@ void Creature::one_step_finish()
 				int new_lim_energy = this->lim_energy;
 
 				if (rand() % 100 < mut_chence) {    // мутация
-					this->create_Action(rand() % (this->brain.size() + 1), &br);
+					this->brain_mutation(rand() % (this->brain.size() + 1), &br);
 					if (rand() % 2) {
 						new_lim_energy = rand() % limit_energy;
 					}
@@ -338,7 +341,7 @@ void Creature::one_step_finish()
 
 
 
-void Creature::build_brain(HWND hWnd)
+void Creature::build_brain(HWND hWnd)    // !!!!!!!!!!!! название
 {
 	for (int i = this->brain.size(); i < StaticPeepBrain.size(); i++)
 	{
@@ -444,11 +447,11 @@ int Creature::get_brain_size()
 }
 
 
-void Creature::create_Action(unsigned int mut_iter, std::vector<Action*>* change_brain)   // !!!!!!!!!!!!!!! название
+void Creature::brain_mutation(unsigned int mut_iter, std::vector<Action*>* change_brain)  // мутирует ген номр mut_iter или мозг дорастает до мутируемго гена
 {
-	if (change_brain->size() > mut_iter) {
-		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {   // изменить весь ген / часть его
-			delete (*change_brain)[mut_iter];
+	if (change_brain->size() > mut_iter) {     // если меняемый ген уже создан
+		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {			// возможно поменять часть гена
+			delete (*change_brain)[mut_iter];								// если не получилось, то изменить весь ген
 			(*change_brain)[mut_iter] = get_rand_Action(this, change_brain->size());
 		}
 		return;
@@ -458,7 +461,7 @@ void Creature::create_Action(unsigned int mut_iter, std::vector<Action*>* change
 		change_brain->push_back(get_rand_Action(this, mut_iter));
 
 	}
-	for (auto& act : this->brain)
+	for (auto& act : this->brain)   // чтобы с большим шансом на новые гены ссылалсь
 	{
 		if (rand() % 2) {
 			act->mutation();
