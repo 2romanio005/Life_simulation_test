@@ -7,7 +7,7 @@ Cell** map;
 
 int size_screen_x;
 int size_screen_y;
-int size_map_x = 90;
+int size_map_x = 93;
 int size_map_y = 45;
 int size_cell;
 int size_half_cell;
@@ -96,7 +96,7 @@ std::vector<std::pair<HWND, int>> StaticPeepBrain;
 HWND SliderPeepBrain;
 int MaxPosSliderPeepBrain = 1;
 int PosSliderPeepBrain = 0;
-Ñreature* peep_Ñreature = nullptr;
+Ã‘reature* peep_Ã‘reature = nullptr;
 bool life_peep_Creature = true;
 bool last_draw_peep_Creature = true;
 
