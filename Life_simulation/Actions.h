@@ -15,7 +15,7 @@ enum Type_Action
 
 class Action {
 public:
-	Action(Ñreature* creature);
+	Action(Creature* creature);
 
 	virtual bool use() = 0;
 
@@ -28,17 +28,17 @@ public:
 
 	virtual Type_Action get_Type_Action() = 0;
 
-	void set_Creature(Ñreature* creature);
+	void set_Creature(Creature* creature);
 
 	std::pair<std::string, int>* build_draw();
 protected:
-	Ñreature* creature;
+	Creature* creature;
 };
 
 
 class Action_go : public Action {
 public:
-	Action_go(Ñreature* creature);
+	Action_go(Creature* creature);
 
 	bool use() override;
 
@@ -52,7 +52,7 @@ public:
 
 class Action_eat : public Action {
 public:
-	Action_eat(Ñreature* creature);
+	Action_eat(Creature* creature);
 
 	bool use() override;
 
@@ -67,7 +67,7 @@ public:
 
 class Action_turn : public Action {
 public:
-	Action_turn(Ñreature* creature, Direction to_dir);
+	Action_turn(Creature* creature, Direction to_dir);
 	
 	bool use() override;
 
@@ -85,7 +85,7 @@ private:
 
 class Action_condition_by_Type_Creature : public Action {
 public:
-	Action_condition_by_Type_Creature(Ñreature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter,  Type_Creature type_creature);
+	Action_condition_by_Type_Creature(Creature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter,  Type_Creature type_creature);
 
 	bool use() override;
 
@@ -107,7 +107,7 @@ private:
 
 class Action_condition_by_Cell : public Action {
 public:
-	Action_condition_by_Cell(Ñreature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/);
+	Action_condition_by_Cell(Creature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/);
 
 	bool use() override;
 
@@ -130,7 +130,7 @@ private:
 
 class Action_change_iter : public Action {
 public:
-	Action_change_iter(Ñreature* creature, unsigned int iter);
+	Action_change_iter(Creature* creature, unsigned int iter);
 
 	bool use() override;
 

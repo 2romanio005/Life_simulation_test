@@ -5,11 +5,11 @@
 class Cell
 {
 public:
-	Cell(Ñreature* creature = nullptr);
+	Cell(Creature* creature = nullptr);
 
 	~Cell();
 
-	void Ñreature_step();
+	void Creature_step();
 
 	void Creature_one_step_finish();
 
@@ -20,7 +20,7 @@ public:
 
 	void change_free_energy(int step);
 
-	void set_Creature(Ñreature* creature = nullptr);
+	void set_Creature(Creature* creature = nullptr);
 
 	void swap_Creapure(Cell* cell);
 
@@ -35,7 +35,7 @@ public:
 
 	int get_Creature_energy();
 
-	Ñreature* get_Creature();
+	Creature* get_Creature();
 
 	//int solar_energy;
 private:
@@ -43,7 +43,7 @@ private:
 
 	std::pair<int, int> map_cord;
 
-	Ñreature* creature;
+	Creature* creature;
 };
 
 

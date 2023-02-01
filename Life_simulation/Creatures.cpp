@@ -1,10 +1,10 @@
-#include "Ñreatures.h"
+#include "Creatures.h"
 #include "MainÑonnection.h"
 
 
 /*
 
-Ñreature::Ñondition::Ñondition(int power, int true_iter, int false_iter, Ñreature* creature, Direction to_dir, Type_Creature found_type_creature, int found_level_under, void (*Action)(Ñreature* creature)) {
+Creature::Ñondition::Ñondition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature found_type_creature, int found_level_under, void (*Action)(Creature* creature)) {
 	this->power = power;
 	this->power_step = 1;
 	this->true_iter = true_iter;
@@ -19,7 +19,7 @@
 
 
 
-bool Ñreature::Ñondition::use(int power_step) {
+bool Creature::Ñondition::use(int power_step) {
 	if (this->creature->get_Type_Creature() == Type_Creature::Herbivore) {
  		int a = 0;
 	}
@@ -45,12 +45,12 @@ bool Ñreature::Ñondition::use(int power_step) {
 	return true;
 }
 
-void Ñreature::Ñondition::set_creature(Ñreature* creature)
+void Creature::Ñondition::set_creature(Creature* creature)
 {
 	this->creature = creature;
 }
 
-bool Ñreature::Ñondition::Cond()
+bool Creature::Ñondition::Cond()
 {
 	if (this->to_dir == Direction::UNDER) {
 		switch (this->creature->get_Type_Creature())
@@ -101,7 +101,7 @@ std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, Direction t
 	return now_map_cord;
 }
 
-Ñreature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str)
+Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str)
 {
 	int iter = 0;
 
@@ -170,7 +170,7 @@ std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain) {
 
 
 
-Ñreature::Ñreature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter)
+Creature::Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter)
 {
 	this->age = age;
 	this->energy = energy;
@@ -193,7 +193,7 @@ std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain) {
 	}
 }
 
-Ñreature::~Ñreature()
+Creature::~Creature()
 {
 	for (auto& act : this->brain) {
 		delete act;
@@ -202,7 +202,7 @@ std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain) {
 	this->brain.clear();
 }
 
-void Ñreature::step() {
+void Creature::step() {
 	if (this->flag_step) {
 		this->flag_step = false;
 		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {};   // öèêë äëÿ ïğîêğóòêè óñëîâèé 
@@ -231,7 +231,7 @@ void Ñreature::step() {
 	}
 }
 
-void Ñreature::one_step_finish()
+void Creature::one_step_finish()
 {
 	this->flag_step = true;
 
@@ -260,7 +260,7 @@ void Ñreature::one_step_finish()
 				new_lim_energy = (rand() % limit_energy) + 5;
 			}
 
-			Ñreature* cr = nullptr;
+			Creature* cr = nullptr;
 			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->get_Type_Creature())
 			{
 			case Type_Creature::Plant:
@@ -304,7 +304,7 @@ void Ñreature::one_step_finish()
 					}
 				}
 
-				Ñreature* cr = nullptr;
+				Creature* cr = nullptr;
 				switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->get_Type_Creature())
 				{
 				case Type_Creature::Plant:
@@ -338,7 +338,7 @@ void Ñreature::one_step_finish()
 
 
 
-void Ñreature::build_brain(HWND hWnd)
+void Creature::build_brain(HWND hWnd)
 {
 	for (int i = this->brain.size(); i < StaticPeepBrain.size(); i++)
 	{
@@ -363,7 +363,7 @@ void Ñreature::build_brain(HWND hWnd)
 
 }
 
-void Ñreature::draw_brain()
+void Creature::draw_brain()
 {
 	for (int i = 0; i < StaticPeepBrain.size(); i++)
 	{
@@ -393,7 +393,7 @@ void Ñreature::draw_brain()
 	//}
 }
 
-std::string Ñreature::write_myself()
+std::string Creature::write_myself()
 {
 	std::string out = 
 		std::to_string(this->get_Type_Creature()) + ';'
@@ -413,38 +413,38 @@ std::string Ñreature::write_myself()
 
 
 
-Direction Ñreature::get_dir()
+Direction Creature::get_dir()
 {
 	return this->dir;
 }
 
-int Ñreature::get_energy()
+int Creature::get_energy()
 {
 	return this->energy;
 }
 
-int Ñreature::get_lim_energy()
+int Creature::get_lim_energy()
 {
 	return this->lim_energy;
 }
 
-int Ñreature::get_age()
+int Creature::get_age()
 {
 	return this->age;
 }
 
-int Ñreature::get_iter()
+int Creature::get_iter()
 {
 	return this->iter;
 }
 
-int Ñreature::get_brain_size()
+int Creature::get_brain_size()
 {
 	return this->brain.size();
 }
 
 
-void Ñreature::create_Action(unsigned int mut_iter, std::vector<Action*>* change_brain)   // !!!!!!!!!!!!!!! íàçâàíèå
+void Creature::create_Action(unsigned int mut_iter, std::vector<Action*>* change_brain)   // !!!!!!!!!!!!!!! íàçâàíèå
 {
 	if (change_brain->size() > mut_iter) {
 		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {   // èçìåíèòü âåñü ãåí / ÷àñòü åãî
@@ -466,12 +466,12 @@ void Ñreature::create_Action(unsigned int mut_iter, std::vector<Action*>* change
 	}
 }
 
-Cell* Ñreature::get_under_me()
+Cell* Creature::get_under_me()
 {
 	return get_Cell_by_map_cord(this->map_cord);
 }
 
-void Ñreature::next_iter()
+void Creature::next_iter()
 {
 	this->iter = (this->iter + 1) % this->brain.size();
 }
@@ -480,7 +480,7 @@ void Ñreature::next_iter()
 
 
 
-Creature_Plant::Creature_Plant(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Ñreature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Plant::Creature_Plant(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
 	this->CountPlant++;
 }
 int Creature_Plant::CountPlant = 0;
@@ -489,7 +489,7 @@ Creature_Plant::~Creature_Plant() {
 	this->CountPlant--;
 }
 
-Ñreature* Creature_Plant::copy(std::pair<int, int> map_cord) {
+Creature* Creature_Plant::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
 	return new Creature_Plant(map_cord, this->energy, this->lim_energy, this->dir, this->age, br, this->iter);
 	delete br;
@@ -514,7 +514,7 @@ Type_Creature Creature_Plant::get_Type_Creature() {
 
 
 
-Creature_Herbivore::Creature_Herbivore(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Ñreature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Herbivore::Creature_Herbivore(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
 	this->CountHarbivore++;
 }
 int Creature_Herbivore::CountHarbivore = 0;
@@ -523,7 +523,7 @@ Creature_Herbivore::~Creature_Herbivore() {
 	this->CountHarbivore--;
 }
 
-Ñreature* Creature_Herbivore::copy(std::pair<int, int> map_cord) {
+Creature* Creature_Herbivore::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
 	return new Creature_Herbivore(map_cord, this->energy, this->lim_energy, this->dir, this->age, copy_brain(this->brain), this->iter);
 	delete br;
@@ -548,7 +548,7 @@ Type_Creature Creature_Herbivore::get_Type_Creature() {
 
 
 
-Creature_Scavenger::Creature_Scavenger(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Ñreature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Scavenger::Creature_Scavenger(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
 	this->CountScavenger++;
 }
 int Creature_Scavenger::CountScavenger = 0;
@@ -557,7 +557,7 @@ Creature_Scavenger::~Creature_Scavenger() {
 	this->CountScavenger--;
 }
 
-Ñreature* Creature_Scavenger::copy(std::pair<int, int> map_cord) {
+Creature* Creature_Scavenger::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
 	return new Creature_Scavenger(map_cord, this->energy, this->lim_energy, this->dir, this->age, copy_brain(this->brain), this->iter);
 	delete br;

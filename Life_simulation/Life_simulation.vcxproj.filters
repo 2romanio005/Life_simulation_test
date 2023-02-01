@@ -24,7 +24,7 @@
     <ClCompile Include="Function.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Сreatures.cpp">
+    <ClCompile Include="Creatures.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Actions.cpp">
@@ -41,7 +41,7 @@
     <ClInclude Include="Definition.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Сreatures.h">
+    <ClInclude Include="Creatures.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Cell.h">

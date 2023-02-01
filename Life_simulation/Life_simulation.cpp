@@ -172,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case IndexButtonSafeCrt:
 		{
 			SetFocus(hWnd);
-			if (peep_Ñreature == nullptr) { MessageBoxA(hWnd, "Ñóùåñòâî íå âûáðàíî.", "Âíèìàíèå!", MB_OK | MB_ICONEXCLAMATION); break; }
+			if (peep_Creature == nullptr) { MessageBoxA(hWnd, "Ñóùåñòâî íå âûáðàíî.", "Âíèìàíèå!", MB_OK | MB_ICONEXCLAMATION); break; }
 
 			bool flag_step = FlagStop;
 			StopStep(hWnd);
@@ -186,7 +186,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					MessageBoxA(hWnd, "Îøèáêà îòêðûòèÿ ôàéëà. Íåïðàâèëüíîå ðàñøèðåíèå ôàéëà. Òðåáóåòñÿ: *.crt", "Îøèáêà!", MB_OK | MB_ICONERROR);
 				}
 				else {
-					//std::string str_to_write = peep_Ñreature->write_myself();
+					//std::string str_to_write = peep_Creature->write_myself();
 					//
 					//HANDLE FileToWrite = CreateFileA(PathSafeCrt, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					//DWORD len_write_str;
@@ -197,7 +197,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					std::ofstream fout;
 					fout.open(PathSafeCrt);
 					try {
-						fout << peep_Ñreature->write_myself();
+						fout << peep_Creature->write_myself();
 						MessageBoxA(hWnd, "Ñóùåñòâî óñïåøíî ñîõðàíåíî.", "Óñïåõ!", MB_OK | MB_ICONINFORMATION);
 					}
 					catch (...) {
@@ -230,24 +230,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					std::string str_to_read;
 					std::getline(fin, str_to_read);
 
-					Ñreature* load_peep_Ñreature = nullptr;
+					Creature* load_peep_Creature = nullptr;
 					try {
-						load_peep_Ñreature = parse_str_to_Creature({ 0, 0 }, str_to_read);
+						load_peep_Creature = parse_str_to_Creature({ 0, 0 }, str_to_read);
 
-						if (!life_peep_Creature) { delete peep_Ñreature; }
-						peep_Ñreature = load_peep_Ñreature;
-						load_peep_Ñreature = nullptr;
+						if (!life_peep_Creature) { delete peep_Creature; }
+						peep_Creature = load_peep_Creature;
+						load_peep_Creature = nullptr;
 
 						life_peep_Creature = false;
 						last_draw_peep_Creature = true;
 
-						MaxPosSliderPeepBrain = peep_Ñreature->get_brain_size() - 1;
+						MaxPosSliderPeepBrain = peep_Creature->get_brain_size() - 1;
 						SetScrollRange(SliderPeepBrain, SB_CTL, 0, MaxPosSliderPeepBrain, TRUE);
 						PosSliderPeepBrain = min(PosSliderPeepBrain, MaxPosSliderPeepBrain);
 						SetScrollPos(SliderPeepBrain, SB_CTL, PosSliderPeepBrain, TRUE);
 
-						peep_Ñreature->build_brain(hWnd);
-						peep_Ñreature->draw_brain();
+						peep_Creature->build_brain(hWnd);
+						peep_Creature->draw_brain();
 						DrawInterface();
 					}
 					catch (const std::out_of_range& oor)
@@ -529,8 +529,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			if (wParam & MK_SHIFT) {
 				SetCapture(hWnd);
 
-				if (peep_Ñreature != nullptr) {
-					place->set_Creature(peep_Ñreature->copy(map_cord));
+				if (peep_Creature != nullptr) {
+					place->set_Creature(peep_Creature->copy(map_cord));
 				}
 				else {
 					place->set_Creature();
@@ -540,21 +540,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				last_draw_peep_Creature = true;
 
 				if (!life_peep_Creature) {
-					delete peep_Ñreature;
+					delete peep_Creature;
 					life_peep_Creature = true;
 				}
-				peep_Ñreature = nullptr;
+				peep_Creature = nullptr;
 				if (place->get_Type_Creature() != Type_Creature::Void) {
 
-					peep_Ñreature = place->get_Creature();
+					peep_Creature = place->get_Creature();
 
-					MaxPosSliderPeepBrain = peep_Ñreature->get_brain_size() - 1;
+					MaxPosSliderPeepBrain = peep_Creature->get_brain_size() - 1;
 					SetScrollRange(SliderPeepBrain, SB_CTL, 0, MaxPosSliderPeepBrain, TRUE);
 					PosSliderPeepBrain = min(PosSliderPeepBrain, MaxPosSliderPeepBrain);
 					SetScrollPos(SliderPeepBrain, SB_CTL, PosSliderPeepBrain, TRUE);
 
-					peep_Ñreature->build_brain(hWnd);
-					peep_Ñreature->draw_brain();
+					peep_Creature->build_brain(hWnd);
+					peep_Creature->draw_brain();
 				}
 				else {
 					for (auto& act : StaticPeepBrain) {
@@ -586,8 +586,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 					Cell* place = get_Cell_by_map_cord(map_cord);
 
-					if (peep_Ñreature != nullptr) {
-						place->set_Creature(peep_Ñreature->copy(map_cord));
+					if (peep_Creature != nullptr) {
+						place->set_Creature(peep_Creature->copy(map_cord));
 					}
 					else {
 						place->set_Creature();
@@ -661,9 +661,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		KillTimer(hWnd, IndexTimerDraw);
 
 		if (!life_peep_Creature) {
-			delete peep_Ñreature;
+			delete peep_Creature;
 		}
-		peep_Ñreature = nullptr;
+		peep_Creature = nullptr;
 
 		DestroyDrawEffecter(hWnd);
 		DestroyWidget(hWnd);

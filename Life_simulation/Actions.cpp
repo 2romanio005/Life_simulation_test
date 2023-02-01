@@ -1,5 +1,5 @@
-#pragma once
-#include "MainÑonnection.h"
+ï»¿#pragma once
+#include "MainĞ¡onnection.h"
 #include "Actions.h"
 
 
@@ -16,31 +16,31 @@ std::string string_by_dir_for_condition(Direction dir)
 	switch (dir)
 	{
 	case Direction::to_FORWARD:
-		return "Ñïåğåäè";
+		return "Ğ¡Ğ¿ĞµÑ€ĞµĞ´Ğ¸";
 		break;
 	case Direction::to_RIGHT:
-		return "Ñïğàâà";
+		return "Ğ¡Ğ¿Ñ€Ğ°Ğ²Ğ°";
 		break;
 	case Direction::to_LEFT:
-		return "Ñëåâà";
+		return "Ğ¡Ğ»ĞµĞ²Ğ°";
 		break;
 	case Direction::to_BACK:
-		return "Ñçàäè";
+		return "Ğ¡Ğ·Ğ°Ğ´Ğ¸";
 		break;
 	case Direction::UP:
-		return "Âåğõ";
+		return "Ğ’ĞµÑ€Ñ…";
 		break;
 	case Direction::RIGHT:
-		return "Ïğàâî";
+		return "ĞŸÑ€Ğ°Ğ²Ğ¾";
 		break;
 	case Direction::DOWN:
-		return "Íèç";
+		return "ĞĞ¸Ğ·";
 		break;
 	case Direction::LEFT:
-		return "Ëåâî";
+		return "Ğ›ĞµĞ²Ğ¾";
 		break;
 	case Direction::UNDER:
-		return "Ñíèçó";
+		return "Ğ¡Ğ½Ğ¸Ğ·Ñƒ";
 		break;
 	}
 }
@@ -50,31 +50,31 @@ std::string string_by_dir_for_turn(Direction dir)
 	switch (dir)
 	{
 	case Direction::to_FORWARD:
-		return "Âïåğ¸ä";
+		return "Ğ’Ğ¿ĞµÑ€Ñ‘Ğ´";
 		break;
 	case Direction::to_RIGHT:
-		return "Íàïğàâî";
+		return "ĞĞ°Ğ¿Ñ€Ğ°Ğ²Ğ¾";
 		break;
 	case Direction::to_LEFT:
-		return "Íàëåâî";
+		return "ĞĞ°Ğ»ĞµĞ²Ğ¾";
 		break;
 	case Direction::to_BACK:
-		return "Íàçàä";
+		return "ĞĞ°Ğ·Ğ°Ğ´";
 		break;
 	case Direction::UP:
-		return "Âåğõ";
+		return "Ğ’ĞµÑ€Ñ…";
 		break;
 	case Direction::RIGHT:
-		return "Ïğàâî";
+		return "ĞŸÑ€Ğ°Ğ²Ğ¾";
 		break;
 	case Direction::DOWN:
-		return "Íèç";
+		return "ĞĞ¸Ğ·";
 		break;
 	case Direction::LEFT:
-		return "Ëåâî";
+		return "Ğ›ĞµĞ²Ğ¾";
 		break;
 	case Direction::UNDER:
-		return "Ñíèçó";
+		return "Ğ¡Ğ½Ğ¸Ğ·Ñƒ";
 		break;
 	}
 }
@@ -84,23 +84,23 @@ std::string string_by_type_creature(Type_Creature type_creature)
 	switch (type_creature)
 	{
 	case Plant:
-		return "Ğàñòåíèå";
+		return "Ğ Ğ°ÑÑ‚ĞµĞ½Ğ¸Ğµ";
 		break;
 	case Herbivore:
-		return "Õèùíèê";
+		return "Ğ¥Ğ¸Ñ‰Ğ½Ğ¸Ğº";
 		break;
 	case Scavenger:
-		return "Ïàäàëüùèê";
+		return "ĞŸĞ°Ğ´Ğ°Ğ»ÑŒÑ‰Ğ¸Ğº";
 		break;
 	case Void:
-		return "Íèêîãî";
+		return "ĞĞ¸ĞºĞ¾Ğ³Ğ¾";
 		break;
 	}
 }
 
 
 
-Action* get_rand_Action(Ñreature* creature, unsigned int max_iter) {
+Action* get_rand_Action(Creature* creature, unsigned int max_iter) {
 	switch (rand() % 5)
 	{
 	case 0:
@@ -134,7 +134,7 @@ Action* get_rand_Action(Ñreature* creature, unsigned int max_iter) {
 
 
 
-Action::Action(Ñreature* creature)
+Action::Action(Creature* creature)
 {
 	this->creature = creature;
 }
@@ -144,7 +144,7 @@ bool Action::mutation()
 	return false;
 }
 
-void Action::set_Creature(Ñreature* creature)
+void Action::set_Creature(Creature* creature)
 {
 	this->creature = creature;
 }
@@ -165,7 +165,7 @@ std::pair<std::string, int>* Action::build_draw(){
 
 
 
-Action_go::Action_go(Ñreature* creature) : Action(creature)
+Action_go::Action_go(Creature* creature) : Action(creature)
 {
 }
 
@@ -191,7 +191,7 @@ std::string* Action_go::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Èäòè",
+			"Ğ˜Ğ´Ñ‚Ğ¸",
 			"",
 			"",
 			"",
@@ -213,7 +213,7 @@ Type_Action Action_go::get_Type_Action()
 }
 
 
-Action_eat::Action_eat( Ñreature* creature) : Action(creature)
+Action_eat::Action_eat( Creature* creature) : Action(creature)
 {
 }
 
@@ -277,7 +277,7 @@ std::string* Action_eat::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Åñòü",
+			"Ğ•ÑÑ‚ÑŒ",
 			"",
 			"",
 			"",
@@ -298,7 +298,7 @@ Type_Action Action_eat::get_Type_Action()
 }
 
 
-Action_turn::Action_turn(Ñreature* creature, Direction to_dir) : Action(creature)
+Action_turn::Action_turn(Creature* creature, Direction to_dir) : Action(creature)
 {
 	this->to_dir = to_dir;
 }
@@ -326,7 +326,7 @@ std::string* Action_turn::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Ïîâoğîò",
+			"ĞŸĞ¾Ğ²oÑ€Ğ¾Ñ‚",
 			string_by_dir_for_turn(this->to_dir),
 			"",
 			"",
@@ -348,7 +348,7 @@ Type_Action Action_turn::get_Type_Action()
 }
 
 
-Action_condition_by_Type_Creature::Action_condition_by_Type_Creature(Ñreature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, Type_Creature type_creature) : Action(creature)
+Action_condition_by_Type_Creature::Action_condition_by_Type_Creature(Creature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, Type_Creature type_creature) : Action(creature)
 {
 	this->to_dir = to_dir;
 
@@ -400,7 +400,7 @@ std::string* Action_condition_by_Type_Creature::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Óñëîâèå",
+			"Ğ£ÑĞ»Ğ¾Ğ²Ğ¸Ğµ",
 			string_by_dir_for_condition(this->to_dir),
 			string_by_type_creature(this->type_creature),
 			std::to_string(this->true_iter),
@@ -425,7 +425,7 @@ Type_Action Action_condition_by_Type_Creature::get_Type_Action()
 }
 
 
-Action_condition_by_Cell::Action_condition_by_Cell(Ñreature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/) : Action(creature)
+Action_condition_by_Cell::Action_condition_by_Cell(Creature* creature, Direction to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/) : Action(creature)
 {
 	this->to_dir = to_dir;
 
@@ -477,7 +477,7 @@ std::string* Action_condition_by_Cell::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Óñëîâèå",
+			"Ğ£ÑĞ»Ğ¾Ğ²Ğ¸Ğµ",
 			string_by_dir_for_condition(this->to_dir),
 			std::to_string(this->limit),
 			std::to_string(this->true_iter),
@@ -502,7 +502,7 @@ Type_Action Action_condition_by_Cell::get_Type_Action()
 }
 
 
-Action_change_iter::Action_change_iter(Ñreature* creature, unsigned int iter) : Action(creature)
+Action_change_iter::Action_change_iter(Creature* creature, unsigned int iter) : Action(creature)
 {
 	this->iter = iter;
 }
@@ -529,7 +529,7 @@ std::string* Action_change_iter::draw_myself()
 {
 	return new std::string[5]
 		{
-			"Ïåğåõîä",
+			"ĞŸĞµÑ€ĞµÑ…Ğ¾Ğ´",
 			"",
 			"",
 			std::to_string(this->iter),
@@ -565,7 +565,7 @@ Type_Action Action_change_iter::get_Type_Action()
 
 
 
-//void Action_look_(Ñreature* creature)
+//void Action_look_(Creature* creature)
 //{
 //	//creature->energy -= use_energy(10);
 //
@@ -575,7 +575,7 @@ Type_Action Action_change_iter::get_Type_Action()
 //	creature->see[3].push_back(&map[(creature->map_cord.first - creature->see[3].size() - 1 + size_map_x) % size_map_x][creature->map_cord.second]);
 //}
 //
-//void Action_go(Ñreature* creature)
+//void Action_go(Creature* creature)
 //{
 //	//if (creature->get_Type_Creature() == Type_Creature::Herbivore) {
 //	//	creature->energy -= use_energy(20);
@@ -616,19 +616,19 @@ Type_Action Action_change_iter::get_Type_Action()
 //	}
 //}
 //
-//void Action_turn_right(Ñreature* creature) {
+//void Action_turn_right(Creature* creature) {
 //	//creature->energy -= use_energy(20);
 //
 //	creature->dir = turn(creature->dir, Direction::to_RIGHT);
 //}
 //
-//void Action_turn_left(Ñreature* creature) {
+//void Action_turn_left(Creature* creature) {
 //	//creature->energy -= use_energy(20);
 //
 //	creature->dir = turn(creature->dir, Direction::to_LEFT);
 //}
 //
-//void Action_eat_(Ñreature* creature) {
+//void Action_eat_(Creature* creature) {
 //	//creature->energy -= use_energy(70);
 //
 //	switch (creature->get_Type_Creature())
@@ -676,29 +676,29 @@ Type_Action Action_change_iter::get_Type_Action()
 
 /*
 
-class Ñondition
+class Ğ¡ondition
 	{
 	public:
-		Ñondition(int power, int true_iter, int false_iter, Ñreature* creature, Direction to_dir, Type_Creature type_creature, int found_level_under, void (*Action)(Ñreature* creature) = nullptr);
+		Ğ¡ondition(int power, int true_iter, int false_iter, Creature* creature, Direction to_dir, Type_Creature type_creature, int found_level_under, void (*Action)(Creature* creature) = nullptr);
 
 		bool use(int power_step);
 
-		void set_creature(Ñreature* creature);
+		void set_creature(Creature* creature);
 	private:
-		Ñreature* creature;
+		Creature* creature;
 		Direction to_dir;
 		Type_Creature found_type_creature;
 		int found_level_under;
 
-		//bool (*Action)(Ñreature* creature, Direction dir, Cell* cell);
-		//bool (*Ñond)(Ñreature* creature, Direction dir, Type_Creature type_creature);
+		//bool (*Action)(Creature* creature, Direction dir, Cell* cell);
+		//bool (*Ğ¡ond)(Creature* creature, Direction dir, Type_Creature type_creature);
 
-		int power;      // êîëè÷åñòâî ïîâòîğåíèé ıòîãî äåéñòâèÿ çà äèí õîä
+		int power;      // ĞºĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ Ğ¿Ğ¾Ğ²Ñ‚Ğ¾Ñ€ĞµĞ½Ğ¸Ğ¹ ÑÑ‚Ğ¾Ğ³Ğ¾ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ Ğ·Ğ° Ğ´Ğ¸Ğ½ Ñ…Ğ¾Ğ´
 		int power_step;
 		int true_iter;
 		int false_iter;
 
-		void (*Action)(Ñreature* creature);
+		void (*Action)(Creature* creature);
 
 		bool Cond();
 	};

@@ -1,6 +1,6 @@
 #include "Ñonditions.h"
 
-//Ñondition::Ñondition (int true_iter, int false_iter, Ñreature* creature, Direction dir, Type_Creature type_creature, bool (*Ñond)(Ñreature* creature, Direction dir, Type_Creature type_creature), void (*Action)(Ñreature* creature))
+//Ñondition::Ñondition (int true_iter, int false_iter, Creature* creature, Direction dir, Type_Creature type_creature, bool (*Ñond)(Creature* creature, Direction dir, Type_Creature type_creature), void (*Action)(Creature* creature))
 //{
 //	this->true_iter = true_iter;
 //	this->false_iter = false_iter;

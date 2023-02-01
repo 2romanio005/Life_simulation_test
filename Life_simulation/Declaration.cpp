@@ -96,7 +96,7 @@ std::vector<std::pair<HWND, int>> StaticPeepBrain;
 HWND SliderPeepBrain;
 int MaxPosSliderPeepBrain = 1;
 int PosSliderPeepBrain = 0;
-Ñreature* peep_Ñreature = nullptr;
+Creature* peep_Creature = nullptr;
 bool life_peep_Creature = true;
 bool last_draw_peep_Creature = true;
 

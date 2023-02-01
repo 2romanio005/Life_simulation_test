@@ -1,7 +1,7 @@
 #pragma once
 #include "Definition.h"
 
-class Ñreature;
+class Creature;
 
 
 

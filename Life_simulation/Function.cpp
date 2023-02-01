@@ -12,7 +12,7 @@ void OneStep() {
 	{
 		for (int j = 0; j < size_map_y; j++)
 		{
-			map[i][j].Ñreature_step();
+			map[i][j].Creature_step();
 		}
 	}
 
@@ -67,13 +67,13 @@ void DrawInterface() {
 
 	if (last_draw_peep_Creature) {
 		last_draw_peep_Creature = false;
-		if (peep_Ñreature != nullptr) {
+		if (peep_Creature != nullptr) {
 			SetWindowTextA(StaticPeepData, LPCSTR((
-				"Ýíåðãèÿ: " + std::to_string(peep_Ñreature->get_energy())
-				+ "  Ýíåðãèÿ äåëåíèÿ: " + std::to_string(peep_Ñreature->get_lim_energy())
-				+ "  Âîçðàñò: " + std::to_string(peep_Ñreature->get_age())
-				+ "  Äåéñòâèå: " + std::to_string(peep_Ñreature->get_iter())
-				+ "  Íàïðàâëåíèå: " + string_by_dir_for_turn(peep_Ñreature->get_dir())
+				"Ýíåðãèÿ: " + std::to_string(peep_Creature->get_energy())
+				+ "  Ýíåðãèÿ äåëåíèÿ: " + std::to_string(peep_Creature->get_lim_energy())
+				+ "  Âîçðàñò: " + std::to_string(peep_Creature->get_age())
+				+ "  Äåéñòâèå: " + std::to_string(peep_Creature->get_iter())
+				+ "  Íàïðàâëåíèå: " + string_by_dir_for_turn(peep_Creature->get_dir())
 				+ "  Æèâî: " + (life_peep_Creature ? "äà" : "íåò"))
 				.c_str()));
 
@@ -185,8 +185,8 @@ void MoveWidget()
 	SetWindowPos(SliderAllLose, nullptr, margin_x * 2 + size_map_x * size_cell, height += 20, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 
-	if (peep_Ñreature != nullptr) {
-		peep_Ñreature->draw_brain();
+	if (peep_Creature != nullptr) {
+		peep_Creature->draw_brain();
 	}
 	SetWindowPos(StaticCountCreature, nullptr, margin_x * 2 + size_map_x * size_cell, height += 50, 0, 0, SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
@@ -578,8 +578,8 @@ void MoveSlider(HWND hWnd, int type, int* pos, int min_pos, int max_pos) {
 		break;
 	case 2:
 		SetScrollPos(SliderPeepBrain, SB_CTL, *pos, TRUE);
-		if (peep_Ñreature != nullptr) {
-			peep_Ñreature->draw_brain();
+		if (peep_Creature != nullptr) {
+			peep_Creature->draw_brain();
 		}
 		break;
 	case 3:

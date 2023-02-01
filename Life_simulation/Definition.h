@@ -73,7 +73,7 @@ class Cell;
 
 enum Type_Creature;
 enum Direction;
-class Ñreature;
+class Creature;
 class Creature_Plant;
 class Creature_Herbivore;
 class Creature_Scavenger;
@@ -93,10 +93,10 @@ std::string string_by_type_creature(Type_Creature type_creature);
 
 Direction turn(Direction strt, Direction step);
 std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, Direction to_dir);
-Ñreature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str);
+Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str);
 std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain);
 
-Action* get_rand_Action(Ñreature* creature, unsigned int max_iter);
+Action* get_rand_Action(Creature* creature, unsigned int max_iter);
 
 Cell* get_Cell_by_map_cord(const std::pair<int, int>& map_cord);
 
@@ -249,7 +249,7 @@ extern std::vector<std::pair<HWND, int>> StaticPeepBrain;
 extern HWND SliderPeepBrain;
 extern int MaxPosSliderPeepBrain;
 extern int PosSliderPeepBrain;
-extern Ñreature* peep_Ñreature;
+extern Creature* peep_Creature;
 extern bool life_peep_Creature;
 extern bool last_draw_peep_Creature;
 

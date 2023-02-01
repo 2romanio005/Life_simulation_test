@@ -13,7 +13,7 @@ Cell* get_Cell_by_map_cord(const std::pair<int, int>& map_cord)
 
 
 
-Cell::Cell(Ñreature* creature)
+Cell::Cell(Creature* creature)
 {
 	this->free_energy = 0;
 	//this->solar_energy = 0;
@@ -25,7 +25,7 @@ Cell::~Cell()
 	set_Creature();
 }
 
-void Cell::Ñreature_step()
+void Cell::Creature_step()
 {
 	if (this->creature != nullptr) {
 		this->creature->step();
@@ -53,7 +53,7 @@ void Cell::draw_myself(HDC hdc)
 	if (this->creature != nullptr) {
 		this->creature->draw_myself(hdc, cord);
 
-		if (this->creature == peep_Ñreature) {
+		if (this->creature == peep_Creature) {
 			int r = int(size_cell * 0.25);
 			cord.first += size_half_cell; cord.second += size_half_cell;
 			SelectObject(hdc, H_Gray[0]);
@@ -99,7 +99,7 @@ int Cell::get_Creature_energy()
 	return this->creature->get_energy();
 }
 
-Ñreature* Cell::get_Creature()
+Creature* Cell::get_Creature()
 {
 	return this->creature;
 }
@@ -110,10 +110,10 @@ void Cell::change_free_energy(int step)
 	if (this->free_energy < 0) this->free_energy = 0;
 }
 
-void Cell::set_Creature(Ñreature* creature)
+void Cell::set_Creature(Creature* creature)
 {
 	if (this->creature != nullptr) {
-		if (this->creature != peep_Ñreature) {
+		if (this->creature != peep_Creature) {
 			delete this->creature;
 		}
 		else {
@@ -125,7 +125,7 @@ void Cell::set_Creature(Ñreature* creature)
 
 void Cell::swap_Creapure(Cell* cell)
 {
-	Ñreature* tmp = this->creature;
+	Creature* tmp = this->creature;
 
 	this->creature = cell->creature;
 	cell->creature = tmp;

@@ -30,14 +30,14 @@ enum Direction
 
 
 
-class Ñreature
+class Creature
 {
 public:
-	Ñreature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
-	virtual ~Ñreature();
+	virtual ~Creature();
 
-	virtual Ñreature* copy(std::pair<int, int> map_cord) = 0;
+	virtual Creature* copy(std::pair<int, int> map_cord) = 0;
 
 	void step();
 
@@ -95,13 +95,13 @@ protected:
 
 
 
-class Creature_Plant : public Ñreature {
+class Creature_Plant : public Creature {
 public:
 	Creature_Plant(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	~Creature_Plant() override;
 
-	Ñreature* copy(std::pair<int, int> map_cord) override;
+	Creature* copy(std::pair<int, int> map_cord) override;
 
 	//void step() override;
 
@@ -115,11 +115,11 @@ private:
 };
 
 
-class Creature_Herbivore : public Ñreature {
+class Creature_Herbivore : public Creature {
 public:
 	Creature_Herbivore(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
-	Ñreature* copy(std::pair<int, int> map_cord) override;
+	Creature* copy(std::pair<int, int> map_cord) override;
 
 	~Creature_Herbivore() override;
 
@@ -135,11 +135,11 @@ private:
 };
 
 
-class Creature_Scavenger : public Ñreature {
+class Creature_Scavenger : public Creature {
 public:
 	Creature_Scavenger(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
-	Ñreature* copy(std::pair<int, int> map_cord) override;
+	Creature* copy(std::pair<int, int> map_cord) override;
 
 	~Creature_Scavenger() override;
 

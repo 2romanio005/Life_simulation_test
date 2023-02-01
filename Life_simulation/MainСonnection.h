@@ -1,7 +1,7 @@
 #pragma once
 #include "Definition.h"
 
-#include "Ñreatures.h"
+#include "Creatures.h"
 #include "Actions.h"
 #include "Cell.h"
 
