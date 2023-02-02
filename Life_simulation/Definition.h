@@ -57,12 +57,13 @@ extern int size_half_cell;
 #define limit_age 100
 #define limit_power_step 5 // количество незаканивающих ход действий за ход
 
-#define mut_chence 10 // %
+#define mut_chence 5 // %
 #define mut_type_chence 0 // %
 
 #define	max_brain_size 100
+#define min_multiply_energy 3000 // минимальная энергия для деления
 
-#define start_energy 700
+#define start_energy 70000
 #define start_max_len_brain 4
 
 

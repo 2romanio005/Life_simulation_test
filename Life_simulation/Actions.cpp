@@ -101,7 +101,7 @@ std::string string_by_type_creature(Type_Creature type_creature)
 
 
 Action* get_rand_Action(Creature* creature, unsigned int max_iter) {
-	switch (rand() % Type_Action::CONDITION_BY_CELL + 1)
+	switch (rand() % (Type_Action::CONDITION_BY_CELL + 1))  // случайное действие с номером до CONDITION_BY_CELL + 1
 	{
 	case Type_Action::GO:
 		return new Action_go(creature);
@@ -291,50 +291,45 @@ Action_multiply::Action_multiply(Creature* creature) : Action(creature)
 
 bool Action_multiply::use()
 {
-	//switch (creature->get_Type_Creature())
-	//{
-	//case Type_Creature::Plant:
-	//{
-	//	//creature->energy += max(limit_energy - (creature->get_under_me()->free_energy += 30), 0);
-	//	//int tmp = max(400 - this->creature->get_under_me()->get_free_energy(), 0);
-	//	//int tmp = (limit_energy / 15 - creature->get_under_me()->get_free_energy());
-	//	//int tmp = (limit_energy - creature->get_under_me()->get_free_energy()) / 7;
-	//	//int tmp = (limit_energy - creature->get_under_me()->get_free_energy() * 15);
-	//	int tmp = limit_energy - creature->get_under_me()->get_free_energy() * (100 - PosSliderGreenEat);
-	//	if (tmp < 0) tmp = 0;
-	//	this->creature->energy += tmp;
-	//	//creature->get_under_me()->change_free_energy(1);
-	//	break;
-	//}
-	//case Type_Creature::Herbivore:
-	//{
-	//	Cell* next_cell = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
+	if (this->creature->energy >= min_multiply_energy) {
+		Cell* near_place;
+		if (FlagRandDivision) {
+			near_place = &map[rand() % size_map_x][rand() % size_map_y];
+		}
+		else {
+			near_place = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
+		}
 
-	//	if (next_cell->get_Type_Creature() != Type_Creature::Void) {
-	//		int out = next_cell->get_Creature_energy();
-	//		next_cell->set_Creature();
+		if (near_place->get_Type_Creature() == Type_Creature::Void) {
+			this->creature->energy /= 3;
 
-	//		next_cell->change_free_energy((out * PosSliderRedLeave) / 100);
-	//		this->creature->energy += (out * PosSliderRedEat) / 100;
-	//	}
-	//	break;
-	//}
-	//case Type_Creature::Scavenger:
-	//{
-	//	//creature->energy += max(creature->get_under_me()->free_energy, 0);
-	//	//creature->get_under_me()->free_energy = 0;
+			std::vector<Action*>* br = copy_brain(this->creature->brain);
 
-	//	//int tmp = min(creature->get_under_me()->get_free_energy(), 400);
-	//	//int tmp = creature->get_under_me()->get_free_energy() / 6;
-	//	int tmp = creature->get_under_me()->get_free_energy();
-	//	if (tmp > 50) {
-	//		tmp = (tmp * PosSliderBlueEat) / 100;
-	//	}
-	//	this->creature->energy += tmp;
-	//	this->creature->get_under_me()->change_free_energy(-tmp);
-	//	break;
-	//}
-	//}
+			if (rand() % 100 < mut_chence) {    // мутация
+				int mut_iter = rand() % (this->creature->brain.size() + 1);
+				this->creature->brain_mutation(min(mut_iter, max_brain_size), br);
+			}
+
+			Creature* cr = nullptr;
+			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->creature->get_Type_Creature())
+			{
+			case Type_Creature::Plant:
+				cr = new Creature_Plant(near_place->get_map_cord(), this->creature->energy, Direction(rand() % 4), 0, br);
+				break;
+			case Type_Creature::Herbivore:
+				cr = new Creature_Herbivore(near_place->get_map_cord(), this->creature->energy, Direction(rand() % 4), 0, br);
+				break;
+			case Type_Creature::Scavenger:
+				cr = new Creature_Scavenger(near_place->get_map_cord(), this->creature->energy, Direction(rand() % 4), 0, br);
+				break;
+			default:
+				throw;
+				break;
+			}
+			near_place->set_Creature(cr);
+			delete br;
+		}
+	}
 
 	this->creature->next_iter();
 	return true;

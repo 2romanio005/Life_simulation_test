@@ -33,7 +33,7 @@ enum Direction
 class Creature
 {
 public:
-	Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	virtual ~Creature();
 
@@ -55,8 +55,6 @@ public:
 
 	int get_energy();
 
-	int get_lim_energy();
-
 	int get_age();
 
 	int get_iter();
@@ -74,7 +72,6 @@ protected:
 
 	int age;
 	int energy;
-	int lim_energy;
 	unsigned int iter;
 
 	std::vector<Action*> brain;
@@ -98,7 +95,7 @@ protected:
 
 class Creature_Plant : public Creature {
 public:
-	Creature_Plant(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature_Plant(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	~Creature_Plant() override;
 
@@ -118,7 +115,7 @@ private:
 
 class Creature_Herbivore : public Creature {
 public:
-	Creature_Herbivore(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature_Herbivore(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	Creature* copy(std::pair<int, int> map_cord) override;
 
@@ -138,7 +135,7 @@ private:
 
 class Creature_Scavenger : public Creature {
 public:
-	Creature_Scavenger(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature_Scavenger(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	Creature* copy(std::pair<int, int> map_cord) override;
 

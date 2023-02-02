@@ -109,7 +109,7 @@ Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string
 	if (type_creature == Type_Creature::Void) return nullptr;
 
 	Direction dir = Direction(parse_str_to_int_one_step(str, &iter));
-	int age = parse_str_to_int_one_step(str, &iter), energy = parse_str_to_int_one_step(str, &iter), lim_energy = parse_str_to_int_one_step(str, &iter), br_iter = parse_str_to_int_one_step(str, &iter), br_size = parse_str_to_int_one_step(str, &iter);
+	int age = parse_str_to_int_one_step(str, &iter), energy = parse_str_to_int_one_step(str, &iter), br_iter = parse_str_to_int_one_step(str, &iter), br_size = parse_str_to_int_one_step(str, &iter);
 
 	std::vector<Action*> br;
 	br.reserve(br_size);
@@ -123,35 +123,40 @@ Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string
 
 		switch (Type_Action(arr[0]))
 		{
-		case GO:
+		case Type_Action::GO:
 			br.push_back(new Action_go(nullptr));
 			break;
-		case EAT:
+		case Type_Action::EAT:
 			br.push_back(new Action_eat(nullptr));
 			break;
-		case TURN:
+		case Type_Action::MULTIPLY:
+			br.push_back(new Action_multiply(nullptr));
+			break;
+		case Type_Action::TURN:
 			br.push_back(new Action_turn(nullptr, Direction(arr[1])));
 			break;
-		case CONDITION_BY_TYPE_CREATURE:
+		case Type_Action::CONDITION_BY_TYPE_CREATURE:
 			br.push_back(new Action_condition_by_Type_Creature(nullptr, Direction(arr[1]), arr[3], arr[4], Type_Creature(arr[2])));
 			break;
-		case CONDITION_BY_CELL:
+		case Type_Action::CONDITION_BY_CELL:
 			br.push_back(new Action_condition_by_Cell(nullptr, Direction(arr[1]), arr[3], arr[4], arr[2]));
 			break;
-		case CHANGE_ITER:
+		case Type_Action::CHANGE_ITER:
 			br.push_back(new Action_change_iter(nullptr, arr[3]));
 			break;
+		default:
+			throw;
 		}
 	}
 	
 	switch (type_creature)
 	{
 	case Plant:
-		return new Creature_Plant(map_cord, energy, lim_energy, dir, age, &br, br_iter);
+		return new Creature_Plant(map_cord, energy, dir, age, &br, br_iter);
 	case Herbivore:
-		return new Creature_Herbivore(map_cord, energy, lim_energy, dir, age, &br, br_iter);
+		return new Creature_Herbivore(map_cord, energy, dir, age, &br, br_iter);
 	case Scavenger:
-		return new Creature_Scavenger(map_cord, energy, lim_energy, dir, age, &br, br_iter);
+		return new Creature_Scavenger(map_cord, energy, dir, age, &br, br_iter);
 	default:
 		throw;
 	}
@@ -169,11 +174,10 @@ std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain) {
 
 
 
-Creature::Creature(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter)
+Creature::Creature(std::pair<int, int> map_cord, int energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter)
 {
 	this->age = age;
 	this->energy = energy;
-	this->lim_energy = lim_energy;
 	this->iter = iter;
 	this->dir = dir;
 	this->map_cord = map_cord;
@@ -204,10 +208,8 @@ Creature::~Creature()
 void Creature::step() {
 	if (this->flag_step) {
 		this->flag_step = false;
-		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {   // цикл для прокрутки действий, не завершаюших ход 
-			this->next_iter();
-		};  
-		this->next_iter();
+		for (int i = 0; i < limit_power_step && !this->brain[this->iter]->use(); ++i) {};   // цикл для прокрутки действий, не завершаюших ход 
+		
 
 		int tmp = 0;   // количество существ моего ипа
 		switch (this->get_Type_Creature())
@@ -238,98 +240,57 @@ void Creature::one_step_finish()
 	this->flag_step = true;
 
 
-	if (this->energy > this->lim_energy) {
-		
-		Cell* near_place;
-		if (FlagRandDivision) {
-			near_place = &map[rand() % size_map_x][rand() % size_map_y];
-		}
-		else {
-			near_place = get_Cell_by_map_cord(near_cell_cord(this->map_cord, turn(this->dir, Direction::to_BACK)));
-		}
-		if (near_place->get_Type_Creature() == Type_Creature::Void) {
-			this->energy /= 3;
-
-			std::vector<Action*>* br = copy_brain(this->brain);
-
-			int new_lim_energy = this->lim_energy;
-
-			if (rand() % 100 < mut_chence) {    // мутация
-				//this->brain_mutation(rand() % (this->brain.size() + 1), br);
-				int mut_iter = rand() % (this->brain.size() + 1);
-				this->brain_mutation(min(mut_iter, max_brain_size), br);
-			}
-			if (rand() % 20 == 0) {
-				new_lim_energy = (rand() % limit_energy) + 5;
-			}
-
-			Creature* cr = nullptr;
-			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->get_Type_Creature())
-			{
-			case Type_Creature::Plant:
-				cr = new Creature_Plant(near_place->get_map_cord(), this->energy, new_lim_energy, Direction(rand() % 4), 0, br);
-				break;
-			case Type_Creature::Herbivore:
-				cr = new Creature_Herbivore(near_place->get_map_cord(), this->energy, new_lim_energy, Direction(rand() % 4), 0, br);
-				break;
-			case Type_Creature::Scavenger:
-				cr = new Creature_Scavenger(near_place->get_map_cord(), this->energy, new_lim_energy, Direction(rand() % 4), 0, br);
-				break;
-			default:
-				throw;
-				break;
-			}
-			near_place->set_Creature(cr);
-			delete br;
-		}
+	//if (this->energy > this->lim_energy) {
+	//	
 
 
-		/*Direction rand_dir = Direction((rand() % 4) - 4);     // вариант с просмотром вариантов со всех сторон
-		for (int i = 0; i < 4; i++)
-		{
-			Direction test_dir = turn(Direction(i), rand_dir);
 
-			if (this->see[test_dir].size() == 0) {
-				Action_look(this);
-			}
+	//	/*Direction rand_dir = Direction((rand() % 4) - 4);     // вариант с просмотром вариантов со всех сторон
+	//	for (int i = 0; i < 4; i++)
+	//	{
+	//		Direction test_dir = turn(Direction(i), rand_dir);
 
-			if (this->see[test_dir][0]->get_Type_Creature() == Type_Creature::Void) {
-				this->energy /= 2;
+	//		if (this->see[test_dir].size() == 0) {
+	//			Action_look(this);
+	//		}
 
-				Cell* free_place = free_place = this->see[test_dir][0];
-				std::vector<Creature_Scavenger::Condition> br = this->brain;
-				int new_lim_energy = this->lim_energy;
+	//		if (this->see[test_dir][0]->get_Type_Creature() == Type_Creature::Void) {
+	//			this->energy /= 2;
 
-				if (rand() % 100 < mut_chence) {    // мутация
-					this->brain_mutation(rand() % (this->brain.size() + 1), &br);
-					if (rand() % 2) {
-						new_lim_energy = rand() % limit_energy;
-					}
-				}
+	//			Cell* free_place = free_place = this->see[test_dir][0];
+	//			std::vector<Creature_Scavenger::Condition> br = this->brain;
+	//			int new_lim_energy = this->lim_energy;
 
-				Creature* cr = nullptr;
-				switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->get_Type_Creature())
-				{
-				case Type_Creature::Plant:
-					cr = new Creature_Plant(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
-					break;
-				case Type_Creature::Herbivore:
-					cr = new Creature_Herbivore(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
-					break;
-				case Type_Creature::Scavenger:
-					cr = new Creature_Scavenger(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
-					break;
-				default:
-					throw;
-					break;
-				}
-				free_place->set_creature(cr);
+	//			if (rand() % 100 < mut_chence) {    // мутация
+	//				this->brain_mutation(rand() % (this->brain.size() + 1), &br);
+	//				if (rand() % 2) {
+	//					new_lim_energy = rand() % limit_energy;
+	//				}
+	//			}
 
-				break;
-			}
-		}*/
-	
-	}
+	//			Creature* cr = nullptr;
+	//			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->get_Type_Creature())
+	//			{
+	//			case Type_Creature::Plant:
+	//				cr = new Creature_Plant(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
+	//				break;
+	//			case Type_Creature::Herbivore:
+	//				cr = new Creature_Herbivore(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
+	//				break;
+	//			case Type_Creature::Scavenger:
+	//				cr = new Creature_Scavenger(free_place->get_map_cord(), this->energy, new_lim_energy, &br);
+	//				break;
+	//			default:
+	//				throw;
+	//				break;
+	//			}
+	//			free_place->set_creature(cr);
+
+	//			break;
+	//		}
+	//	}*/
+	//
+	//}
 
 
 	if (++this->age > limit_age) {
@@ -403,7 +364,6 @@ std::string Creature::write_myself()
 		+ std::to_string(this->dir) + ';'
 		+ std::to_string(this->age) + ';' 
 		+ std::to_string(this->energy) + ';'
-		+ std::to_string(this->lim_energy) + ';'
 		+ std::to_string(this->iter) + ';'
 		+ std::to_string(this->brain.size()) + ';';
 
@@ -424,11 +384,6 @@ Direction Creature::get_dir()
 int Creature::get_energy()
 {
 	return this->energy;
-}
-
-int Creature::get_lim_energy()
-{
-	return this->lim_energy;
 }
 
 int Creature::get_age()
@@ -483,7 +438,7 @@ void Creature::next_iter()
 
 
 
-Creature_Plant::Creature_Plant(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Plant::Creature_Plant(std::pair<int, int> map_cord, int energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, dir, age, brain, iter) {
 	this->CountPlant++;
 }
 int Creature_Plant::CountPlant = 0;
@@ -494,7 +449,7 @@ Creature_Plant::~Creature_Plant() {
 
 Creature* Creature_Plant::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
-	return new Creature_Plant(map_cord, this->energy, this->lim_energy, this->dir, this->age, br, this->iter);
+	return new Creature_Plant(map_cord, this->energy, this->dir, this->age, br);
 	delete br;
 }
 
@@ -517,7 +472,7 @@ Type_Creature Creature_Plant::get_Type_Creature() {
 
 
 
-Creature_Herbivore::Creature_Herbivore(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Herbivore::Creature_Herbivore(std::pair<int, int> map_cord, int energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, dir, age, brain, iter) {
 	this->CountHarbivore++;
 }
 int Creature_Herbivore::CountHarbivore = 0;
@@ -528,7 +483,7 @@ Creature_Herbivore::~Creature_Herbivore() {
 
 Creature* Creature_Herbivore::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
-	return new Creature_Herbivore(map_cord, this->energy, this->lim_energy, this->dir, this->age, copy_brain(this->brain), this->iter);
+	return new Creature_Herbivore(map_cord, this->energy, this->dir, this->age, copy_brain(this->brain));
 	delete br;
 }
 
@@ -551,7 +506,7 @@ Type_Creature Creature_Herbivore::get_Type_Creature() {
 
 
 
-Creature_Scavenger::Creature_Scavenger(std::pair<int, int> map_cord, int energy, int lim_energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, lim_energy, dir, age, brain, iter) {
+Creature_Scavenger::Creature_Scavenger(std::pair<int, int> map_cord, int energy, Direction dir, int age, std::vector<Action*>* brain, unsigned int iter) : Creature(map_cord, energy, dir, age, brain, iter) {
 	this->CountScavenger++;
 }
 int Creature_Scavenger::CountScavenger = 0;
@@ -562,7 +517,7 @@ Creature_Scavenger::~Creature_Scavenger() {
 
 Creature* Creature_Scavenger::copy(std::pair<int, int> map_cord) {
 	std::vector<Action*>* br = copy_brain(this->brain);
-	return new Creature_Scavenger(map_cord, this->energy, this->lim_energy, this->dir, this->age, copy_brain(this->brain), this->iter);
+	return new Creature_Scavenger(map_cord, this->energy, this->dir, this->age, copy_brain(this->brain));
 	delete br;
 }
 

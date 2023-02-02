@@ -70,7 +70,6 @@ void DrawInterface() {
 		if (peep_Creature != nullptr) {
 			SetWindowTextA(StaticPeepData, LPCSTR((
 				"Энергия: " + std::to_string(peep_Creature->get_energy())
-				+ "  Энергия деления: " + std::to_string(peep_Creature->get_lim_energy())
 				+ "  Возраст: " + std::to_string(peep_Creature->get_age())
 				+ "  Действие: " + std::to_string(peep_Creature->get_iter())
 				+ "  Направление: " + string_by_dir_for_turn(peep_Creature->get_dir())
@@ -282,7 +281,7 @@ void BuildWidget(HWND hWnd) {
 	//SendMessage(ButtonStop, WM_CHANGEUISTATE, (WPARAM)(0x10001), (LPARAM)(0));
 
 	CheckBoxAutomaticStop = CreateWindowA("BUTTON", "Остановка при вымирании", WS_VISIBLE | WS_CHILD | ES_CENTER | BS_CHECKBOX, margin_x * 2 + size_map_x * size_cell, height += 30, 220, 20, hWnd, HMENU(IndexCheckBoxAutomaticStop), NULL, NULL);
-	SendMessage(CheckBoxAutomaticStop, BM_SETCHECK, BST_CHECKED, 0);
+	SendMessage(CheckBoxAutomaticStop, BM_SETCHECK, FlagAutomaticStop, 0);
 
 	StaticTimeDrawMain = CreateWindowA("STATIC", "Время кадра", WS_VISIBLE | WS_CHILD | ES_CENTER, margin_x * 2 + size_map_x * size_cell, height += 20, 220, 20, hWnd, NULL, NULL, NULL);
 	SliderTimeDraw = CreateWindowA("SCROLLBAR", NULL, WS_VISIBLE | WS_CHILD | SBS_HORZ, margin_x * 2 + size_map_x * size_cell, height += 20, 220, 20, hWnd, NULL, NULL, NULL);
@@ -301,7 +300,7 @@ void BuildWidget(HWND hWnd) {
 
 
 	CheckBoxRandDivision = CreateWindowA("BUTTON", "Деление в случайное место", WS_VISIBLE | WS_CHILD | ES_CENTER | BS_CHECKBOX, margin_x * 2 + size_map_x * size_cell, height += 50, 220, 20, hWnd, HMENU(IndexCheckBoxRandDivision), NULL, NULL);
-	SendMessage(CheckBoxRandDivision, BM_SETCHECK, BST_CHECKED, 0);
+	SendMessage(CheckBoxRandDivision, BM_SETCHECK, FlagRandDivision, 0);
 
 	StaticRedEat = CreateWindowA("STATIC", ("Красный ест: " + std::to_string(PosSliderRedEat) + "%").c_str(), WS_VISIBLE | WS_CHILD | ES_CENTER, margin_x * 2 + size_map_x * size_cell, height += 20, 220, 20, hWnd, NULL, NULL, NULL);
 	SliderRedEat = CreateWindowA("SCROLLBAR", NULL, WS_VISIBLE | WS_CHILD | SBS_HORZ, margin_x * 2 + size_map_x * size_cell, height += 20, 220, 20, hWnd, NULL, NULL, NULL);
@@ -344,7 +343,7 @@ void BuildWidget(HWND hWnd) {
 
 
 
-	StaticPeepData = CreateWindowA("STATIC", "Энергия: 0  Энергия деления: 0  Возраст: 0  Направление: -  Действие: 0  Живо: нет", WS_VISIBLE | WS_CHILD | ES_CENTER, margin_x, margin_y * 2 + size_map_y * size_cell, size_map_x * size_cell, 20, hWnd, NULL, NULL, NULL);
+	StaticPeepData = CreateWindowA("STATIC", "Энергия: 0 Возраст: 0  Направление: -  Действие: 0  Живо: нет", WS_VISIBLE | WS_CHILD | ES_CENTER, margin_x, margin_y * 2 + size_map_y * size_cell, size_map_x * size_cell, 20, hWnd, NULL, NULL, NULL);
 
 	StaticPeepBrainHeader = CreateWindowA("STATIC", "Номер\nИмя\nНапр\nЗнач\nДа\nНет\n", WS_VISIBLE | WS_CHILD | ES_LEFT, margin_x, margin_y * 2 + size_map_y * size_cell + 20, 43, 96, hWnd, NULL, NULL, NULL);
 	SliderPeepBrain = CreateWindowA("SCROLLBAR", NULL, WS_VISIBLE | WS_CHILD | SBS_HORZ, margin_x + size_map_x * size_cell / 3, margin_y * 2 + size_map_y * size_cell + 116, size_map_x * size_cell / 3, 20, hWnd, NULL, NULL, NULL);
@@ -370,13 +369,13 @@ void BuildObject() {
 			switch (rand() % 4)
 			{
 			case Type_Creature::Plant:
-				map[i][j].set_Creature(new Creature_Plant({i, j}, start_energy, rand() % limit_energy + 5, Direction(rand() % 4), rand() % limit_age));
+				map[i][j].set_Creature(new Creature_Plant({i, j}, start_energy, Direction(rand() % 4), rand() % limit_age));
 				break;
 			case Type_Creature::Herbivore:
-				map[i][j].set_Creature(new Creature_Herbivore({ i, j }, start_energy , rand() % limit_energy + 5, Direction(rand() % 4), rand() % limit_age));
+				map[i][j].set_Creature(new Creature_Herbivore({ i, j }, start_energy, Direction(rand() % 4), rand() % limit_age));
 				break;
 			case Type_Creature::Scavenger:
-				map[i][j].set_Creature(new Creature_Scavenger({ i, j }, start_energy, rand() % limit_energy + 5, Direction(rand() % 4), rand() % limit_age));
+				map[i][j].set_Creature(new Creature_Scavenger({ i, j }, start_energy, Direction(rand() % 4), rand() % limit_age));
 				break;
 			default:
 				break;
