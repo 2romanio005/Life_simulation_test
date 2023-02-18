@@ -10,6 +10,8 @@
 #include <vector>
 #include <string>
 
+#include "ENUMS.h"
+
 
 extern int size_screen_x;
 extern int size_screen_y;
@@ -75,29 +77,29 @@ extern int size_half_cell;
 
 class Cell;
 
-enum Type_Creature;
-enum Direction;
+enum TYPE_CREATURE;
+enum DIRECTION;
 class Creature;
 class Creature_Plant;
 class Creature_Herbivore;
 class Creature_Scavenger;
 
-enum Type_Action;
+enum TYPE_ACTION;
 class Action;
-class Action_go;
-class Action_multiply;
-class Action_eat;
-class Action_turn;
-class Action_condition_by_Type_Creature;
-class Action_condition_by_Cell;
+//class Action_go;
+//class Action_multiply;
+//class Action_eat;
+//class Action_turn;
+//class Action_condition_by_TYPE_CREATURE;
+//class Action_condition_by_Cell;
 
-std::string string_by_dir_for_condition(Direction dir);
-std::string string_by_dir_for_turn(Direction dir);
-std::string string_by_type_creature(Type_Creature type_creature);
+std::string string_by_dir_for_condition(DIRECTION dir);
+std::string string_by_dir_for_turn(DIRECTION dir);
+std::string string_by_type_creature(TYPE_CREATURE type_creature);
 
 
-Direction turn(Direction strt, Direction step);
-std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, Direction to_dir);
+DIRECTION turn(DIRECTION strt, DIRECTION step);
+std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, DIRECTION to_dir);
 Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str);
 std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain);
 

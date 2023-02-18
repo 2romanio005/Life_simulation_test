@@ -544,7 +544,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					life_peep_Creature = true;
 				}
 				peep_Creature = nullptr;
-				if (place->get_Type_Creature() != Type_Creature::Void) {
+				if (place->get_TYPE_CREATURE() != TYPE_CREATURE::Void) {
 
 					peep_Creature = place->get_Creature();
 

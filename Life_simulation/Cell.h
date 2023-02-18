@@ -31,7 +31,7 @@ public:
 
 	std::pair<int, int> get_map_cord();
 
-	Type_Creature get_Type_Creature();
+	TYPE_CREATURE get_TYPE_CREATURE();
 
 	int get_Creature_energy();
 

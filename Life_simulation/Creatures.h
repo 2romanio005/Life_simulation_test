@@ -1,39 +1,17 @@
 ﻿#pragma once
 #include "Definition.h"
 
-
-
-enum Type_Creature
-{
-	Plant,
-	Herbivore,
-	Scavenger,
-
-	Void
-};
-
-enum Direction
-{
-	UP = 0,
-	RIGHT = 1,
-	DOWN = 2,
-	LEFT = 3,
-
-	UNDER = 4,
-
-	to_FORWARD = -4,
-	to_RIGHT = -3,
-	to_LEFT = -1,
-	to_BACK = -2
-};
-
+#include "Actions.h"
+#include "Creature_Plant.h"
+#include "Creature_Herbivore.h"
+#include "Creature_Scavenger.h"
 
 
 
 class Creature
 {
 public:
-	Creature(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
+	Creature(std::pair<int, int> map_cord, int energy, DIRECTION dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
 
 	virtual ~Creature();
 
@@ -51,7 +29,7 @@ public:
 
 	//virtual int get_type_count() = 0;
 
-	Direction get_dir();
+	DIRECTION get_dir();
 
 	int get_energy();
 
@@ -61,7 +39,7 @@ public:
 
 	int get_brain_size();
 
-	virtual Type_Creature get_Type_Creature() = 0;
+	virtual TYPE_CREATURE get_TYPE_CREATURE() = 0;
 
 protected:
 	void brain_mutation(unsigned int mut_iter, std::vector<Action*>* brain);
@@ -76,81 +54,141 @@ protected:
 
 	std::vector<Action*> brain;
 
-	Direction dir;
+	DIRECTION dir;
 	std::pair<int, int> map_cord;
 
 	bool flag_step;
 	
-	friend class Action_go;
-	friend class Action_eat;
-	friend class Action_multiply;
-	friend class Action_turn;
-	friend class Action_condition_by_Type_Creature;
-	friend class Action_condition_by_Cell;
-	friend class Action_change_iter;
+
+	class Action_go_global : public Action {
+	public:
+		Action_go_global(Creature* creature);
+
+		virtual bool use() = 0;
+
+		Action* copy() = 0;
+
+		std::string* draw_myself() override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	};
+
+	class Action_eat_global : public Action {
+	public:
+		Action_eat_global(Creature* creature);
+
+		virtual bool use() = 0;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	};
+
+	class Action_multiply_global : public Action {
+	public:
+		Action_multiply_global(Creature* creature);
+
+		virtual bool use() = 0;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	};
+
+	class Action_turn_global : public Action {
+	public:
+		Action_turn_global(Creature* creature, DIRECTION to_dir);
+
+		virtual bool use() = 0;
+
+		bool mutation() override;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+		void write_myself(std::string* out) override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	private:
+		DIRECTION to_dir;
+	};
+
+	class Action_condition_by_TYPE_CREATURE_global : public Action {
+	public:
+		Action_condition_by_TYPE_CREATURE_global(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, TYPE_CREATURE type_creature);
+
+		virtual bool use() = 0;
+
+		bool mutation() override;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+		void write_myself(std::string* out) override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	private:
+		DIRECTION to_dir;
+		TYPE_CREATURE type_creature;
+
+		unsigned int true_iter;
+		unsigned int false_iter;
+	};
+
+	class Action_condition_by_Cell_global : public Action {
+	public:
+		Action_condition_by_Cell_global(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/);
+
+		virtual bool use() = 0;
+
+		bool mutation() override;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+		void write_myself(std::string* out) override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	private:
+		DIRECTION to_dir;
+		int limit;
+		//bool (*cond)(int one, int two);
+
+		unsigned int true_iter;
+		unsigned int false_iter;
+	};
+
+	class Action_change_iter_global : public Action {
+	public:
+		Action_change_iter_global(Creature* creature, unsigned int iter);
+
+		virtual bool use() = 0;
+
+		bool mutation() override;
+
+		virtual Action* copy() = 0;
+
+		std::string* draw_myself() override;
+		void write_myself(std::string* out) override;
+
+		TYPE_ACTION get_TYPE_ACTION() override;
+	private:
+		unsigned int iter;
+	};
+
 };
 
 
 
 
-class Creature_Plant : public Creature {
-public:
-	Creature_Plant(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
-
-	~Creature_Plant() override;
-
-	Creature* copy(std::pair<int, int> map_cord) override;
-
-	//void step() override;
-
-	void draw_myself(HDC hdc, std::pair<int, int> cord) override;
-
-	static int get_type_count();
-
-	Type_Creature get_Type_Creature() override;
-private:
-	static int CountPlant;
-};
 
 
-class Creature_Herbivore : public Creature {
-public:
-	Creature_Herbivore(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
-
-	Creature* copy(std::pair<int, int> map_cord) override;
-
-	~Creature_Herbivore() override;
-
-	//void step() override;
-
-	void draw_myself(HDC hdc, std::pair<int, int> cord) override;
-
-	static int get_type_count();
-
-	Type_Creature get_Type_Creature() override;
-private:
-	static int CountHarbivore;
-};
 
 
-class Creature_Scavenger : public Creature {
-public:
-	Creature_Scavenger(std::pair<int, int> map_cord, int energy, Direction dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
-
-	Creature* copy(std::pair<int, int> map_cord) override;
-
-	~Creature_Scavenger() override;
-
-	//void step() override;
-
-	void draw_myself(HDC hdc, std::pair<int, int> cord) override;
-
-	static int get_type_count();
-
-	Type_Creature get_Type_Creature() override;
-private:
-	static int CountScavenger;
-};
 
 
 

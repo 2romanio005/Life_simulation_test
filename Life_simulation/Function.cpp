@@ -368,14 +368,14 @@ void BuildObject() {
 
 			switch (rand() % 4)
 			{
-			case Type_Creature::Plant:
-				map[i][j].set_Creature(new Creature_Plant({i, j}, start_energy, Direction(rand() % 4), rand() % limit_age));
+			case TYPE_CREATURE::Plant:
+				map[i][j].set_Creature(new Creature_Plant({i, j}, start_energy, DIRECTION(rand() % 4), rand() % limit_age));
 				break;
-			case Type_Creature::Herbivore:
-				map[i][j].set_Creature(new Creature_Herbivore({ i, j }, start_energy, Direction(rand() % 4), rand() % limit_age));
+			case TYPE_CREATURE::Herbivore:
+				map[i][j].set_Creature(new Creature_Herbivore({ i, j }, start_energy, DIRECTION(rand() % 4), rand() % limit_age));
 				break;
-			case Type_Creature::Scavenger:
-				map[i][j].set_Creature(new Creature_Scavenger({ i, j }, start_energy, Direction(rand() % 4), rand() % limit_age));
+			case TYPE_CREATURE::Scavenger:
+				map[i][j].set_Creature(new Creature_Scavenger({ i, j }, start_energy, DIRECTION(rand() % 4), rand() % limit_age));
 				break;
 			default:
 				break;
@@ -384,7 +384,7 @@ void BuildObject() {
 	}
 
 	//std::vector<Action*> br;
-	//br.push_back(new Action_condition_by_Cell(nullptr, Direction::UNDER, 3, 1, 400));
+	//br.push_back(new Action_condition_by_Cell(nullptr, DIRECTION::UNDER, 3, 1, 400));
 	//br.push_back(new Action_eat(nullptr));
 	//br.push_back(new Action_change_iter(nullptr, 0));
 	//br.push_back(new Action_go(nullptr));
@@ -395,20 +395,20 @@ void BuildObject() {
 	//	1,
 	//	-1, -1,
 	//	nullptr,
-	//	Direction::UP, Type_Creature::Void, 1000,
+	//	DIRECTION::UP, TYPE_CREATURE::Void, 1000,
 	//	Action_go
 	//));
 	//br.push_back(Creature_Scavenger::Condition(
 	//	0,
 	//	2, 0,
 	//	nullptr,
-	//	Direction::UNDER, Type_Creature::Void, 250
+	//	DIRECTION::UNDER, TYPE_CREATURE::Void, 250
 	//));
 	//br.push_back(Creature_Scavenger::Condition(
 	//	1,
 	//	-1, -1,
 	//	nullptr,
-	//	Direction::UP, Type_Creature::Void, 1000,
+	//	DIRECTION::UP, TYPE_CREATURE::Void, 1000,
 	//	Action_eat
 	//));
 	//map[size_map_x / 2][size_map_y / 2].set_creature(new Creature_Scavenger({ size_map_x / 2, size_map_y / 2 }, start_energy, &br));
@@ -419,14 +419,14 @@ void BuildObject() {
 	//	1,
 	//	-1, -1,
 	//	nullptr,
-	//	Direction::UP, Type_Creature::Void, 1000,
+	//	DIRECTION::UP, TYPE_CREATURE::Void, 1000,
 	//	Action_eat
 	//));
 	//br.push_back(Creature_Herbivore::Condition(
 	//	1,
 	//	-1, -1,
 	//	nullptr,
-	//	Direction::UP, Type_Creature::Void, 1000,
+	//	DIRECTION::UP, TYPE_CREATURE::Void, 1000,
 	//	Action_go
 	//));
 	//map[size_map_x / 2][size_map_y / 2].set_creature(new Creature_Herbivore({ size_map_x / 2, size_map_y / 2 }, start_energy, 2000, &br));

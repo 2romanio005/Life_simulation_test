@@ -66,7 +66,7 @@ std::string Cell::write_myself()
 {
 	std::string out = std::to_string(this->free_energy) + ';';
 	if (this->creature == nullptr) {
-		out += std::to_string(Type_Creature::Void) + ";\n";
+		out += std::to_string(TYPE_CREATURE::Void) + ";\n";
 	}
 	else {
 		out += this->creature->write_myself();
@@ -86,12 +86,12 @@ void Cell::read_myself(std::string str)
 }
 
 
-Type_Creature Cell::get_Type_Creature()
+TYPE_CREATURE Cell::get_TYPE_CREATURE()
 {
 	if (this->creature != nullptr) {
-		return (this->creature->get_Type_Creature());
+		return (this->creature->get_TYPE_CREATURE());
 	}
-	return Type_Creature::Void;
+	return TYPE_CREATURE::Void;
 }
 
 int Cell::get_Creature_energy()
@@ -182,7 +182,7 @@ std::pair<int, int> Cell::get_map_cord()
 //
 //void Cell::creature_step()
 //{
-//	(this->creature)->get_Type_Creature();
+//	(this->creature)->get_TYPE_CREATURE();
 //}
 //
 ////Creature* Cell::get_creature()
