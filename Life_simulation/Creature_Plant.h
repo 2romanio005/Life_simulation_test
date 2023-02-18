@@ -1,6 +1,4 @@
 #pragma once
-#include "Definition.h"
-
 #include "Creatures.h"
 
 class Creature_Plant : public Creature {
@@ -11,7 +9,7 @@ public:
 
 	Creature* copy(std::pair<int, int> map_cord) override;
 
-	//void step() override;
+	void step();
 
 	void draw_myself(HDC hdc, std::pair<int, int> cord) override;
 
@@ -21,6 +19,9 @@ public:
 private:
 	static int CountPlant;
 
+	Action* get_rand_Action(Creature* creature, unsigned int max_iter) override;
+
+public:
 	class Action_go : public Action_go_global {
 	public:
 		Action_go(Creature_Plant* creature);
@@ -59,7 +60,7 @@ private:
 
 	class Action_condition_by_TYPE_CREATURE : public Action_condition_by_TYPE_CREATURE_global {
 	public:
-		Action_condition_by_TYPE_CREATURE(Creature_Plant* creature);
+		Action_condition_by_TYPE_CREATURE(Creature_Plant* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, TYPE_CREATURE type_creature);
 
 		bool use() override;
 
@@ -68,7 +69,7 @@ private:
 
 	class Action_condition_by_Cell : public Action_condition_by_Cell_global {
 	public:
-		Action_condition_by_Cell(Creature_Plant* creature);
+		Action_condition_by_Cell(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, int limit);
 
 		bool use() override;
 
@@ -77,7 +78,7 @@ private:
 
 	class Action_change_iter : public Action_change_iter_global {
 	public:
-		Action_change_iter(Creature_Plant* creature);
+		Action_change_iter(Creature_Plant* creature, unsigned int iter);
 
 		bool use() override;
 

@@ -1,8 +1,31 @@
-﻿#include "Definition.h"
-#pragma once
-#include "MainConnection.h"
+﻿#pragma once
+#include "Definition.h"
+#include "Creature_Plant.h"
+#include "Creature_Herbivore.h"
+#include "Creature_Scavenger.h"
 
 
+
+int parse_str_to_int_one_step(const std::string& s, int* iter, char separator) {
+	int out = 0;
+	bool flag = false;
+	if (s.at(*iter) == '-') {
+		flag = true;
+		(*iter)++;
+	}
+	while (s[*iter] != separator) {
+		out = out * 10 + s.at(*iter) - '0';
+		(*iter)++;
+	}
+	(*iter)++;
+	return flag ? -out : out;
+}
+
+
+DIRECTION turn(DIRECTION strt, DIRECTION step)
+{
+	return DIRECTION((strt + step + 4) % 4);
+}
 
 
 
@@ -21,7 +44,7 @@ void OneStep() {
 	{
 		for (int j = 0; j < size_map_y; j++)
 		{
-			map[i][j].Creature_one_step_finish();
+			map[i][j].Creature_allow_to_act(); // разрешаем ходить существам (запрещали чтобы они не ходили несколько раз)
 		}
 	}
 	CountStep++;
@@ -638,22 +661,95 @@ bool CheckExpansion(const char* check_expansion, const char* right_expansion, un
 }
 
 
-int parse_str_to_int_one_step(const std::string& s, int* iter, char separator) {
-	int out = 0;
-	bool flag = false;
-	if (s.at(*iter) == '-') {
-		flag = true;
-		(*iter)++;
+
+
+std::string string_by_type_creature(TYPE_CREATURE type_creature)
+{
+	switch (type_creature)
+	{
+	case TYPE_CREATURE::Plant:
+		return "Растение";
+		break;
+	case TYPE_CREATURE::Herbivore:
+		return "Хищник";
+		break;
+	case TYPE_CREATURE::Scavenger:
+		return "Падальщик";
+		break;
+	case TYPE_CREATURE::Void:
+		return "Никого";
+		break;
 	}
-	while (s[*iter] != separator) {
-		out = out * 10 + s.at(*iter) - '0';
-		(*iter)++;
-	}
-	(*iter)++;
-	return flag ? -out : out;
 }
 
 
+std::string string_by_dir_for_condition(DIRECTION dir)
+{
+	switch (dir)
+	{
+	case DIRECTION::to_FORWARD:
+		return "Спереди";
+		break;
+	case DIRECTION::to_RIGHT:
+		return "Справа";
+		break;
+	case DIRECTION::to_LEFT:
+		return "Слева";
+		break;
+	case DIRECTION::to_BACK:
+		return "Сзади";
+		break;
+	case DIRECTION::UP:
+		return "Верх";
+		break;
+	case DIRECTION::RIGHT:
+		return "Право";
+		break;
+	case DIRECTION::DOWN:
+		return "Низ";
+		break;
+	case DIRECTION::LEFT:
+		return "Лево";
+		break;
+	case DIRECTION::UNDER:
+		return "Снизу";
+		break;
+	}
+}
+
+std::string string_by_dir_for_turn(DIRECTION dir)
+{
+	switch (dir)
+	{
+	case DIRECTION::to_FORWARD:
+		return "Вперёд";
+		break;
+	case DIRECTION::to_RIGHT:
+		return "Направо";
+		break;
+	case DIRECTION::to_LEFT:
+		return "Налево";
+		break;
+	case DIRECTION::to_BACK:
+		return "Назад";
+		break;
+	case DIRECTION::UP:
+		return "Верх";
+		break;
+	case DIRECTION::RIGHT:
+		return "Право";
+		break;
+	case DIRECTION::DOWN:
+		return "Низ";
+		break;
+	case DIRECTION::LEFT:
+		return "Лево";
+		break;
+	case DIRECTION::UNDER:
+		return "Снизу";
+		break;
+	}
+}
 
 
 

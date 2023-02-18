@@ -33,10 +33,10 @@ void Cell::Creature_step()
 	}
 }
 
-void Cell::Creature_one_step_finish()
+void Cell::Creature_allow_to_act()
 {
 	if (this->creature != nullptr) {
-		this->creature->one_step_finish();
+		this->creature->allow_to_act();
 	}
 }
 

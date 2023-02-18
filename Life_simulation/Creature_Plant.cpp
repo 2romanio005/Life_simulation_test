@@ -1,5 +1,4 @@
 #pragma once
-#include "Creatures.h"
 #include "Creature_Plant.h"
 
 
@@ -19,6 +18,13 @@ Creature* Creature_Plant::copy(std::pair<int, int> map_cord) {
 	delete br;
 }
 
+void Creature_Plant::step()
+{
+	Creature::step();
+	this->energy -= (limit_energy * PosSliderAllLose * this->CountPlant) / (size_map_x * size_map_y * 100);
+	this->check_my_live();
+}
+
 void Creature_Plant::draw_myself(HDC hdc, std::pair<int, int> cord)
 {
 	int r = int(size_cell * 0.4);
@@ -29,9 +35,37 @@ void Creature_Plant::draw_myself(HDC hdc, std::pair<int, int> cord)
 
 int Creature_Plant::get_type_count()
 {
-	return CountPlant;
+	return Creature_Plant::CountPlant;
 }
 
 TYPE_CREATURE Creature_Plant::get_TYPE_CREATURE() {
-	return Plant;
+	return TYPE_CREATURE::Plant;
+}
+
+
+Action* Creature_Plant::get_rand_Action(Creature* creature, unsigned int max_iter)
+{
+	switch (rand() % (TYPE_ACTION::CHANGE_ITER))  // случайное действие с номером до CHANGE_ITER не включительно
+	{
+	case TYPE_ACTION::GO:
+		return new Creature_Plant::Action_go(static_cast<Creature_Plant*>(creature));
+	case TYPE_ACTION::EAT:
+		return new Creature_Plant::Action_eat(static_cast<Creature_Plant*>(creature));
+	case TYPE_ACTION::MULTIPLY:
+		return new Creature_Plant::Action_multiply(static_cast<Creature_Plant*>(creature));
+	case TYPE_ACTION::TURN:
+		return new Creature_Plant::Action_turn(static_cast<Creature_Plant*>(creature), DIRECTION(rand() % 3 - 3));
+	case TYPE_ACTION::CONDITION_BY_TYPE_CREATURE:
+		return new Creature_Plant::Action_condition_by_TYPE_CREATURE(static_cast<Creature_Plant*>(creature), DIRECTION(rand() % 4 - 4), rand() % max_iter, rand() % max_iter, TYPE_CREATURE(rand() % 4));
+	case TYPE_ACTION::CONDITION_BY_CELL:
+	{
+		int tmp = (rand() % 5);
+		return new Creature_Plant::Action_condition_by_Cell(static_cast<Creature_Plant*>(creature), DIRECTION(tmp == 4 ? 4 : tmp - 4), rand() % max_iter, rand() % max_iter, rand() % limit_energy);
+	}
+	//case TYPE_ACTION::CHANGE_ITER:
+	//	return new Creature_Plant::Action_change_iter(static_cast<Creature_Plant*>(creature), rand() % max_iter);
+	//	break;
+	default:
+		throw;
+	}
 }

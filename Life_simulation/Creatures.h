@@ -2,9 +2,11 @@
 #include "Definition.h"
 
 #include "Actions.h"
-#include "Creature_Plant.h"
-#include "Creature_Herbivore.h"
-#include "Creature_Scavenger.h"
+#include "Cell.h"
+#include "ENUMS.h"
+//#include "Creature_Plant.h"
+//#include "Creature_Herbivore.h"
+//#include "Creature_Scavenger.h"
 
 
 
@@ -19,7 +21,7 @@ public:
 
 	void step();
 
-	void one_step_finish();
+	void allow_to_act();
 
 	virtual void draw_myself(HDC hdc, std::pair<int, int> cord) = 0;
 
@@ -27,22 +29,19 @@ public:
 	void draw_brain();
 	std::string write_myself();
 
-	//virtual int get_type_count() = 0;
-
+	
 	DIRECTION get_dir();
-
 	int get_energy();
-
 	int get_age();
-
 	int get_iter();
-
 	int get_brain_size();
-
 	virtual TYPE_CREATURE get_TYPE_CREATURE() = 0;
 
 protected:
 	void brain_mutation(unsigned int mut_iter, std::vector<Action*>* brain);
+	void check_my_live();
+
+	virtual Action* get_rand_Action(Creature* creature, unsigned int max_iter) = 0;
 
 	Cell* get_under_me();
 
@@ -113,7 +112,7 @@ protected:
 		void write_myself(std::string* out) override;
 
 		TYPE_ACTION get_TYPE_ACTION() override;
-	private:
+	protected:
 		DIRECTION to_dir;
 	};
 
@@ -131,7 +130,7 @@ protected:
 		void write_myself(std::string* out) override;
 
 		TYPE_ACTION get_TYPE_ACTION() override;
-	private:
+	protected:
 		DIRECTION to_dir;
 		TYPE_CREATURE type_creature;
 
@@ -141,7 +140,7 @@ protected:
 
 	class Action_condition_by_Cell_global : public Action {
 	public:
-		Action_condition_by_Cell_global(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, int limit/*, bool (*cond)(int one, int two)*/);
+		Action_condition_by_Cell_global(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, int limit);
 
 		virtual bool use() = 0;
 
@@ -153,10 +152,9 @@ protected:
 		void write_myself(std::string* out) override;
 
 		TYPE_ACTION get_TYPE_ACTION() override;
-	private:
+	protected:
 		DIRECTION to_dir;
 		int limit;
-		//bool (*cond)(int one, int two);
 
 		unsigned int true_iter;
 		unsigned int false_iter;
@@ -176,7 +174,7 @@ protected:
 		void write_myself(std::string* out) override;
 
 		TYPE_ACTION get_TYPE_ACTION() override;
-	private:
+	protected:
 		unsigned int iter;
 	};
 

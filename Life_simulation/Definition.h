@@ -10,7 +10,6 @@
 #include <vector>
 #include <string>
 
-#include "ENUMS.h"
 
 
 extern int size_screen_x;
@@ -86,29 +85,29 @@ class Creature_Scavenger;
 
 enum TYPE_ACTION;
 class Action;
-//class Action_go;
-//class Action_multiply;
-//class Action_eat;
-//class Action_turn;
-//class Action_condition_by_TYPE_CREATURE;
-//class Action_condition_by_Cell;
-
-std::string string_by_dir_for_condition(DIRECTION dir);
-std::string string_by_dir_for_turn(DIRECTION dir);
-std::string string_by_type_creature(TYPE_CREATURE type_creature);
+class Action_go_global;
+class Action_multiply_global;
+class Action_eat_global;
+class Action_turn_global;
+class Action_condition_by_TYPE_CREATURE_global;
+class Action_condition_by_Cell_global;
 
 
-DIRECTION turn(DIRECTION strt, DIRECTION step);
+// в Creature.cpp
 std::pair<int, int> near_cell_cord(std::pair<int, int> now_map_cord, DIRECTION to_dir);
 Creature* parse_str_to_Creature(const std::pair<int, int>& map_cord, std::string str);
 std::vector<Action*>* copy_brain(const std::vector<Action*>& sample_brain);
 
-Action* get_rand_Action(Creature* creature, unsigned int max_iter);
-
+// в Cell.cpp
 Cell* get_Cell_by_map_cord(const std::pair<int, int>& map_cord);
 
-
+// сверху Function.cpp
 int parse_str_to_int_one_step(const std::string& s, int* iter, char separator = ';');
+DIRECTION turn(DIRECTION strt, DIRECTION step);
+// снизу Function.cpp
+std::string string_by_type_creature(TYPE_CREATURE type_creature);
+std::string string_by_dir_for_condition(DIRECTION dir);
+std::string string_by_dir_for_turn(DIRECTION dir);
 
 
 

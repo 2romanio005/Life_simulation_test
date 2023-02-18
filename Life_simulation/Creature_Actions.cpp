@@ -1,6 +1,5 @@
 #pragma once
 #include "Creatures.h"
-#include "Actions.h"
 
 Creature::Action_go_global::Action_go_global(Creature* creature) : Action(creature)
 {
@@ -15,8 +14,7 @@ std::string* Creature::Action_go_global::draw_myself()
 		"",
 		"",
 		""
-	}
-	;
+	};
 }
 
 TYPE_ACTION Creature::Action_go_global::get_TYPE_ACTION()

@@ -1,5 +1,4 @@
 #pragma once
-#include "Cell.h"
 #include "Creature_Plant.h"
 
 Creature_Plant::Action_go::Action_go(Creature_Plant* creature) : Action_go_global(creature)
@@ -71,23 +70,23 @@ bool Creature_Plant::Action_multiply::use()
 				static_cast<Creature_Plant*>(this->creature)->brain_mutation(min(mut_iter, max_brain_size), br);
 			}
 
-			Creature* cr = nullptr;
-			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : static_cast<Creature_Plant*>(this->creature)->get_TYPE_CREATURE())
-			{
-			case TYPE_CREATURE::Plant:
-				cr = new Creature_Plant(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			case TYPE_CREATURE::Herbivore:
-				cr = new Creature_Herbivore(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			case TYPE_CREATURE::Scavenger:
-				cr = new Creature_Scavenger(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			default:
-				throw;
-				break;
-			}
-			near_place->set_Creature(cr);
+			//Creature* cr = nullptr;
+			//switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : static_cast<Creature_Plant*>(this->creature)->get_TYPE_CREATURE())
+			//{
+			//case TYPE_CREATURE::Plant:
+			//	cr = new Creature_Plant(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
+			//	break;
+			//case TYPE_CREATURE::Herbivore:
+			//	cr = new Creature_Herbivore(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
+			//	break;
+			//case TYPE_CREATURE::Scavenger:
+			//	cr = new Creature_Scavenger(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br);
+			//	break;
+			//default:
+			//	throw;
+			//	break;
+			//}
+			near_place->set_Creature(new Creature_Plant(near_place->get_map_cord(), static_cast<Creature_Plant*>(this->creature)->energy, DIRECTION(rand() % 4), 0, br));
 			delete br;
 		}
 	}
@@ -120,7 +119,7 @@ Action* Creature_Plant::Action_turn::copy()
 }
 
 
-Creature_Plant::Action_condition_by_TYPE_CREATURE::Action_condition_by_TYPE_CREATURE(Creature_Plant* creature)
+Creature_Plant::Action_condition_by_TYPE_CREATURE::Action_condition_by_TYPE_CREATURE(Creature_Plant* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, TYPE_CREATURE type_creature) : Action_condition_by_TYPE_CREATURE_global(creature, to_dir, true_iter, false_iter, type_creature)
 {
 }
 
@@ -142,7 +141,7 @@ Action* Creature_Plant::Action_condition_by_TYPE_CREATURE::copy()
 }
 
 
-Creature_Plant::Action_condition_by_Cell::Action_condition_by_Cell(Creature_Plant* creature)
+Creature_Plant::Action_condition_by_Cell::Action_condition_by_Cell(Creature* creature, DIRECTION to_dir, unsigned int true_iter, unsigned int false_iter, int limit) : Action_condition_by_Cell_global(creature, to_dir, true_iter, false_iter, limit)
 {
 }
 
@@ -164,7 +163,7 @@ Action* Creature_Plant::Action_condition_by_Cell::copy()
 }
 
 
-Creature_Plant::Action_change_iter::Action_change_iter(Creature_Plant* creature)
+Creature_Plant::Action_change_iter::Action_change_iter(Creature_Plant* creature, unsigned int iter) : Action_change_iter_global(creature, iter)
 {
 }
 

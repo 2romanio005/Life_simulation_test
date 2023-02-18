@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "Definition.h"
 #include "MainConnection.h"
+#include "Creature_Plant.h"
+#include "Creature_Herbivore.h"
+#include "Creature_Scavenger.h"
 #include "resource.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Definition.h"
 
 enum TYPE_CREATURE
 {
@@ -9,7 +9,6 @@ enum TYPE_CREATURE
 
 	Void
 };
-
 
 enum TYPE_ACTION
 {
@@ -21,7 +20,6 @@ enum TYPE_ACTION
 	CONDITION_BY_CELL,
 	CHANGE_ITER   // не испльзуется
 };
-
 
 enum DIRECTION
 {
@@ -37,4 +35,3 @@ enum DIRECTION
 	to_LEFT = -1,
 	to_BACK = -2
 };
-

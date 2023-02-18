@@ -1,130 +1,5 @@
 ﻿#pragma once
-#include "MainConnection.h"
 #include "Actions.h"
-
-
-
-
-//int use_energy(int energy) {
-//	return energy;
-//}
-
-
-
-std::string string_by_dir_for_condition(DIRECTION dir)
-{
-	switch (dir)
-	{
-	case DIRECTION::to_FORWARD:
-		return "Спереди";
-		break;
-	case DIRECTION::to_RIGHT:
-		return "Справа";
-		break;
-	case DIRECTION::to_LEFT:
-		return "Слева";
-		break;
-	case DIRECTION::to_BACK:
-		return "Сзади";
-		break;
-	case DIRECTION::UP:
-		return "Верх";
-		break;
-	case DIRECTION::RIGHT:
-		return "Право";
-		break;
-	case DIRECTION::DOWN:
-		return "Низ";
-		break;
-	case DIRECTION::LEFT:
-		return "Лево";
-		break;
-	case DIRECTION::UNDER:
-		return "Снизу";
-		break;
-	}
-}
-
-std::string string_by_dir_for_turn(DIRECTION dir)
-{
-	switch (dir)
-	{
-	case DIRECTION::to_FORWARD:
-		return "Вперёд";
-		break;
-	case DIRECTION::to_RIGHT:
-		return "Направо";
-		break;
-	case DIRECTION::to_LEFT:
-		return "Налево";
-		break;
-	case DIRECTION::to_BACK:
-		return "Назад";
-		break;
-	case DIRECTION::UP:
-		return "Верх";
-		break;
-	case DIRECTION::RIGHT:
-		return "Право";
-		break;
-	case DIRECTION::DOWN:
-		return "Низ";
-		break;
-	case DIRECTION::LEFT:
-		return "Лево";
-		break;
-	case DIRECTION::UNDER:
-		return "Снизу";
-		break;
-	}
-}
-
-std::string string_by_type_creature(TYPE_CREATURE type_creature)
-{
-	switch (type_creature)
-	{
-	case Plant:
-		return "Растение";
-		break;
-	case Herbivore:
-		return "Хищник";
-		break;
-	case Scavenger:
-		return "Падальщик";
-		break;
-	case Void:
-		return "Никого";
-		break;
-	}
-}
-
-
-
-Action* get_rand_Action(Creature* creature, unsigned int max_iter) {
-	switch (rand() % (TYPE_ACTION::CONDITION_BY_CELL + 1))  // случайное действие с номером до CONDITION_BY_CELL + 1
-	{
-	case TYPE_ACTION::GO:
-		return new Action_go(creature);
-	case TYPE_ACTION::EAT:
-		return new Action_eat(creature);
-	case TYPE_ACTION::MULTIPLY:
-		return new Action_multiply(creature);
-	case TYPE_ACTION::TURN:
-		return new Action_turn(creature, DIRECTION(rand() % 3 - 3));
-	case TYPE_ACTION::CONDITION_BY_TYPE_CREATURE:
-		return new Action_condition_by_TYPE_CREATURE(creature, DIRECTION(rand() % 4 - 4), rand() % max_iter, rand() % max_iter, TYPE_CREATURE(rand() % 4));
-	case TYPE_ACTION::CONDITION_BY_CELL:
-	{
-		int tmp = (rand() % 5);
-		return new Action_condition_by_Cell(creature, DIRECTION(tmp == 4 ? 4 : tmp - 4), rand() % max_iter, rand() % max_iter, rand() % limit_energy);
-	}
-	//case TYPE_ACTION::CHANGE_ITER:
-	//	return new Action_change_iter(creature, rand() % max_iter);
-	//	break;
-	default:
-		throw;
-	}
-}
 
 
 
@@ -174,198 +49,197 @@ std::pair<std::string, int>* Action::build_draw(){
 
 
 
+//bool Action_eat::use()
+//{
+//	switch (creature->get_TYPE_CREATURE())
+//	{
+//	case TYPE_CREATURE::Plant:
+//	{
+//		//creature->energy += max(limit_energy - (creature->get_under_me()->free_energy += 30), 0);
+//		//int tmp = max(400 - this->creature->get_under_me()->get_free_energy(), 0);
+//		//int tmp = (limit_energy / 15 - creature->get_under_me()->get_free_energy());
+//		//int tmp = (limit_energy - creature->get_under_me()->get_free_energy()) / 7;
+//		//int tmp = (limit_energy - creature->get_under_me()->get_free_energy() * 15);
+//		int tmp = limit_energy - creature->get_under_me()->get_free_energy() * (100 - PosSliderGreenEat);
+//		if (tmp < 0) tmp = 0;
+//		this->creature->energy += tmp;
+//		//creature->get_under_me()->change_free_energy(1);
+//		break;
+//	}
+//	case TYPE_CREATURE::Herbivore:
+//	{
+		//Cell* next_cell = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
 
-bool Action_eat::use()
-{
-	switch (creature->get_TYPE_CREATURE())
-	{
-	case TYPE_CREATURE::Plant:
-	{
-		//creature->energy += max(limit_energy - (creature->get_under_me()->free_energy += 30), 0);
-		//int tmp = max(400 - this->creature->get_under_me()->get_free_energy(), 0);
-		//int tmp = (limit_energy / 15 - creature->get_under_me()->get_free_energy());
-		//int tmp = (limit_energy - creature->get_under_me()->get_free_energy()) / 7;
-		//int tmp = (limit_energy - creature->get_under_me()->get_free_energy() * 15);
-		int tmp = limit_energy - creature->get_under_me()->get_free_energy() * (100 - PosSliderGreenEat);
-		if (tmp < 0) tmp = 0;
-		this->creature->energy += tmp;
-		//creature->get_under_me()->change_free_energy(1);
-		break;
-	}
-	case TYPE_CREATURE::Herbivore:
-	{
-		Cell* next_cell = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
+		//if (next_cell->get_TYPE_CREATURE() != TYPE_CREATURE::Void) {
+		//	int out = next_cell->get_Creature_energy();
+		//	next_cell->set_Creature();
 
-		if (next_cell->get_TYPE_CREATURE() != TYPE_CREATURE::Void) {
-			int out = next_cell->get_Creature_energy();
-			next_cell->set_Creature();
-
-			next_cell->change_free_energy((out * PosSliderRedLeave) / 100);
-			this->creature->energy +=  (out * PosSliderRedEat) / 100;
-		}
-		break;
-	}
-	case TYPE_CREATURE::Scavenger:
-	{
-		//creature->energy += max(creature->get_under_me()->free_energy, 0);
-		//creature->get_under_me()->free_energy = 0;
-
-		//int tmp = min(creature->get_under_me()->get_free_energy(), 400);
-		//int tmp = creature->get_under_me()->get_free_energy() / 6;
-		int tmp = creature->get_under_me()->get_free_energy();
-		if (tmp > 50) {
-			tmp = (tmp * PosSliderBlueEat) / 100;
-		}
-		this->creature->energy += tmp;
-		this->creature->get_under_me()->change_free_energy(-tmp);
-		break;
-	}
-	}
-
-	this->creature->next_iter();
-	return true;
-}
-
-Action* Action_eat::copy()
-{
-	return new Action_eat(this->creature);
-}
-
-
-
-
-
-
-
-bool Action_multiply::use()
-{
-	if (this->creature->energy >= min_multiply_energy) {
-		Cell* near_place;
-		if (FlagRandDivision) {
-			near_place = &map[rand() % size_map_x][rand() % size_map_y];
-		}
-		else {
-			near_place = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
-		}
-
-		if (near_place->get_TYPE_CREATURE() == TYPE_CREATURE::Void) {
-			this->creature->energy /= 3;
-
-			std::vector<Action*>* br = copy_brain(this->creature->brain);
-
-			if (rand() % 100 < mut_chence) {    // мутация
-				int mut_iter = rand() % (this->creature->brain.size() + 1);
-				this->creature->brain_mutation(min(mut_iter, max_brain_size), br);
-			}
-
-			Creature* cr = nullptr;
-			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->creature->get_TYPE_CREATURE())
-			{
-			case TYPE_CREATURE::Plant:
-				cr = new Creature_Plant(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			case TYPE_CREATURE::Herbivore:
-				cr = new Creature_Herbivore(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			case TYPE_CREATURE::Scavenger:
-				cr = new Creature_Scavenger(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
-				break;
-			default:
-				throw;
-				break;
-			}
-			near_place->set_Creature(cr);
-			delete br;
-		}
-	}
-
-	this->creature->next_iter();
-	return true;
-}
-
-Action* Action_multiply::copy()
-{
-	return new Action_multiply(this->creature);
-}
-
-
-
-
-bool Action_turn::use()
-{
-	this->creature->dir = turn(this->creature->dir, this->to_dir);
-
-	this->creature->next_iter();
-	return false;
-}
-
-Action* Action_turn::copy()
-{
-	return new Action_turn(this->creature, this->to_dir);
-}
-
-
-
-
-
-
-bool Action_condition_by_TYPE_CREATURE::use()
-{
-	if (get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, turn(this->creature->dir, this->to_dir)))->get_TYPE_CREATURE() == this->type_creature) {
-		this->creature->iter = this->true_iter;
-	}
-	else {
-		this->creature->iter = this->false_iter;
-	}
-
-	return false;
-}
-
-Action* Action_condition_by_TYPE_CREATURE::copy()
-{
-	return new Action_condition_by_TYPE_CREATURE(this->creature, this->to_dir, this->true_iter, this->false_iter,this->type_creature);
-}
-
-
-
-
-
-bool Action_condition_by_Cell::use()
-{
-	if (get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->to_dir == DIRECTION::UNDER ? DIRECTION::UNDER : turn(this->creature->dir, this->to_dir)))->get_free_energy() >= this->limit) {
-		this->creature->iter = this->true_iter;
-	}
-	else {
-		this->creature->iter = this->false_iter;
-	}
-
-	return false;
-}
-
-Action* Action_condition_by_Cell::copy()
-{
-	return new Action_condition_by_Cell(this->creature, this->to_dir, this->true_iter, this->false_iter, this->limit);
-}
-
-
-
-
-bool Action_change_iter::use()
-{
-	this->creature->iter = this->iter;
-
-	return false;
-}
-
-Action* Action_change_iter::copy()
-{
-	return new Action_change_iter(this->creature, this->iter);
-}
-
-
-
-
-
+		//	next_cell->change_free_energy((out * PosSliderRedLeave) / 100);
+		//	this->creature->energy +=  (out * PosSliderRedEat) / 100;
+		//}
+//		break;
+//	}
+//	case TYPE_CREATURE::Scavenger:
+//	{
+//		//creature->energy += max(creature->get_under_me()->free_energy, 0);
+//		//creature->get_under_me()->free_energy = 0;
+//
+//		//int tmp = min(creature->get_under_me()->get_free_energy(), 400);
+//		//int tmp = creature->get_under_me()->get_free_energy() / 6;
+//		int tmp = creature->get_under_me()->get_free_energy();
+//		if (tmp > 50) {
+//			tmp = (tmp * PosSliderBlueEat) / 100;
+//		}
+//		this->creature->energy += tmp;
+//		this->creature->get_under_me()->change_free_energy(-tmp);
+//		break;
+//	}
+//	}
+//
+//	this->creature->next_iter();
+//	return true;
+//}
+//
+//Action* Action_eat::copy()
+//{
+//	return new Action_eat(this->creature);
+//}
+//
+//
+//
+//
+//
+//
+//
+//bool Action_multiply::use()
+//{
+//	if (this->creature->energy >= min_multiply_energy) {
+//		Cell* near_place;
+//		if (FlagRandDivision) {
+//			near_place = &map[rand() % size_map_x][rand() % size_map_y];
+//		}
+//		else {
+//			near_place = get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->creature->dir));
+//		}
+//
+//		if (near_place->get_TYPE_CREATURE() == TYPE_CREATURE::Void) {
+//			this->creature->energy /= 3;
+//
+//			std::vector<Action*>* br = copy_brain(this->creature->brain);
+//
+//			if (rand() % 100 < mut_chence) {    // мутация
+//				int mut_iter = rand() % (this->creature->brain.size() + 1);
+//				this->creature->brain_mutation(min(mut_iter, max_brain_size), br);
+//			}
+//
+//			Creature* cr = nullptr;
+//			switch (((rand() % 100) < mut_type_chence) ? (rand() % 3) : this->creature->get_TYPE_CREATURE())
+//			{
+//			case TYPE_CREATURE::Plant:
+//				cr = new Creature_Plant(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
+//				break;
+//			case TYPE_CREATURE::Herbivore:
+//				cr = new Creature_Herbivore(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
+//				break;
+//			case TYPE_CREATURE::Scavenger:
+//				cr = new Creature_Scavenger(near_place->get_map_cord(), this->creature->energy, DIRECTION(rand() % 4), 0, br);
+//				break;
+//			default:
+//				throw;
+//				break;
+//			}
+//			near_place->set_Creature(cr);
+//			delete br;
+//		}
+//	}
+//
+//	this->creature->next_iter();
+//	return true;
+//}
+//
+//Action* Action_multiply::copy()
+//{
+//	return new Action_multiply(this->creature);
+//}
+//
+//
+//
+//
+//bool Action_turn::use()
+//{
+//	this->creature->dir = turn(this->creature->dir, this->to_dir);
+//
+//	this->creature->next_iter();
+//	return false;
+//}
+//
+//Action* Action_turn::copy()
+//{
+//	return new Action_turn(this->creature, this->to_dir);
+//}
+//
+//
+//
+//
+//
+//
+//bool Action_condition_by_TYPE_CREATURE::use()
+//{
+//	if (get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, turn(this->creature->dir, this->to_dir)))->get_TYPE_CREATURE() == this->type_creature) {
+//		this->creature->iter = this->true_iter;
+//	}
+//	else {
+//		this->creature->iter = this->false_iter;
+//	}
+//
+//	return false;
+//}
+//
+//Action* Action_condition_by_TYPE_CREATURE::copy()
+//{
+//	return new Action_condition_by_TYPE_CREATURE(this->creature, this->to_dir, this->true_iter, this->false_iter,this->type_creature);
+//}
+//
+//
+//
+//
+//
+//bool Action_condition_by_Cell::use()
+//{
+//	if (get_Cell_by_map_cord(near_cell_cord(this->creature->map_cord, this->to_dir == DIRECTION::UNDER ? DIRECTION::UNDER : turn(this->creature->dir, this->to_dir)))->get_free_energy() >= this->limit) {
+//		this->creature->iter = this->true_iter;
+//	}
+//	else {
+//		this->creature->iter = this->false_iter;
+//	}
+//
+//	return false;
+//}
+//
+//Action* Action_condition_by_Cell::copy()
+//{
+//	return new Action_condition_by_Cell(this->creature, this->to_dir, this->true_iter, this->false_iter, this->limit);
+//}
+//
+//
+//
+//
+//bool Action_change_iter::use()
+//{
+//	this->creature->iter = this->iter;
+//
+//	return false;
+//}
+//
+//Action* Action_change_iter::copy()
+//{
+//	return new Action_change_iter(this->creature, this->iter);
+//}
+//
+//
+//
+//
+//
 
 
 
@@ -450,20 +324,20 @@ Action* Action_change_iter::copy()
 //	}
 //	case TYPE_CREATURE::Herbivore:
 //	{
-//		if (creature->see[creature->dir].size() == 0) {
-//			Action_look(creature);
-//		}
-//
-//		if (creature->see[creature->dir][0]->get_TYPE_CREATURE() != TYPE_CREATURE::Void) {
-//			int out = creature->see[creature->dir][0]->set_creature();
-//			creature->see[creature->dir][0]->free_energy += out / 3;
-//			creature->energy += out / 2;
-//		}	//Action_go(creature);
-//		//}
-//		//else {
-//		//	creature->energy += use_energy(90);
-//		//}
-//		break;
+		//if (creature->see[creature->dir].size() == 0) {
+		//	Action_look(creature);
+		//}
+
+//if (creature->see[creature->dir][0]->get_TYPE_CREATURE() != TYPE_CREATURE::Void) {
+		//	int out = creature->see[creature->dir][0]->set_creature();
+		//	creature->see[creature->dir][0]->free_energy += out / 3;
+		//	creature->energy += out / 2;
+		//}	//Action_go(creature);
+		////}
+		////else {
+		////	creature->energy += use_energy(90);
+		////}
+		//break;
 //	}
 //	case TYPE_CREATURE::Scavenger:
 //	{
