@@ -1,4 +1,5 @@
-﻿#include "Definition.h"
+﻿#pragma once
+#include "Definition.h"
 #include "MainConnection.h"
 #include "resource.h"
 

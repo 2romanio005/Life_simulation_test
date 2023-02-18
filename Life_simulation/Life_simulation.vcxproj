@@ -142,7 +142,7 @@
   <ItemGroup>
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="Creature_Actions_global.cpp" />
+    <ClCompile Include="Creature_Actions.cpp" />
     <ClCompile Include="Creature_Herbivore.cpp" />
     <ClCompile Include="Creature_Herbivore_Actions.cpp" />
     <ClCompile Include="Creature_Plant.cpp" />

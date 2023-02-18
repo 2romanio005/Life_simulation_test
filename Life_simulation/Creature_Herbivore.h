@@ -1,6 +1,8 @@
 #pragma once
 #include "Definition.h"
 
+#include "Creatures.h"
+
 class Creature_Herbivore : public Creature {
 public:
 	Creature_Herbivore(std::pair<int, int> map_cord, int energy, DIRECTION dir, int age = 0, std::vector<Action*>* brain = nullptr, unsigned int iter = 0);
@@ -18,4 +20,13 @@ public:
 	TYPE_CREATURE get_TYPE_CREATURE() override;
 private:
 	static int CountHarbivore;
+
+	class Action_go : public Action_go_global {
+	public:
+		Action_go(Creature_Herbivore* creature);
+
+		bool use() override;
+
+		Action* copy() override;
+	};
 };

@@ -169,27 +169,6 @@ std::pair<std::string, int>* Action::build_draw(){
 
 
 
-bool Action_go::use()
-{
-	std::pair<int, int> next = near_cell_cord(this->creature->map_cord, this->creature->dir);
-
-	if (map[next.first][next.second].get_TYPE_CREATURE() == TYPE_CREATURE::Void) {
-		map[next.first][next.second].swap_Creapure(&map[creature->map_cord.first][creature->map_cord.second]);
-		creature->map_cord = next;
-	}
-
-	this->creature->next_iter();
-	return true;
-}
-
-Action* Action_go::copy()
-{
-	return new Action_go(this->creature);
-}
-
-
-
-
 
 
 

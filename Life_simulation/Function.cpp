@@ -1,4 +1,5 @@
 ﻿#include "Definition.h"
+#pragma once
 #include "MainConnection.h"
 
 

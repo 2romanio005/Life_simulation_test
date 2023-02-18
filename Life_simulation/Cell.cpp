@@ -1,4 +1,5 @@
-﻿#include "Cell.h"
+﻿#pragma once
+#include "Cell.h"
 #include "MainConnection.h"
 
 

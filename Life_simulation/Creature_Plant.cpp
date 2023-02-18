@@ -1,3 +1,4 @@
+#pragma once
 #include "Creatures.h"
 #include "Creature_Plant.h"
 
