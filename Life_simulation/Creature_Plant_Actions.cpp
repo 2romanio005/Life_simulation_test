@@ -65,7 +65,7 @@ bool Creature_Plant::Action_multiply::use()
 
 			std::vector<Action*>* br = copy_brain(static_cast<Creature_Plant*>(this->creature)->brain);
 
-			if (rand() % 100 < mut_chance) {    // ìóòàöèÿ
+			if (rand() % 100 < mut_chance) {    // Ð¼ÑƒÑ‚Ð°Ñ†Ð¸Ñ
 				int tmp = (static_cast<Creature_Plant*>(this->creature)->brain.size() + 1);
 				int mut_iter = rand() % min(tmp, max_brain_size);
 				static_cast<Creature_Plant*>(this->creature)->brain_mutation(br, mut_iter);

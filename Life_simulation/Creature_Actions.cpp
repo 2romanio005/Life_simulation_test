@@ -9,7 +9,7 @@ std::string* Creature::Action_go_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Èäòè",
+		"Ğ˜Ğ´Ñ‚Ğ¸",
 		"",
 		"",
 		"",
@@ -32,7 +32,7 @@ std::string* Creature::Action_eat_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Åñòü",
+		"Ğ•ÑÑ‚ÑŒ",
 		"",
 		"",
 		"",
@@ -55,7 +55,7 @@ std::string* Creature::Action_multiply_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Ğàçìí",
+		"Ğ Ğ°Ğ·Ğ¼Ğ½",
 		"",
 		"",
 		"",
@@ -93,7 +93,7 @@ std::string* Creature::Action_turn_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Ïîâoğîò",
+		"ĞŸĞ¾Ğ²oÑ€Ğ¾Ñ‚",
 		string_by_dir_for_turn(this->to_dir),
 		"",
 		"",
@@ -163,7 +163,7 @@ std::string* Creature::Action_condition_by_TYPE_CREATURE_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Óñëîâèå",
+		"Ğ£ÑĞ»Ğ¾Ğ²Ğ¸Ğµ",
 		string_by_dir_for_condition(this->to_dir),
 		string_by_type_creature(this->type_creature),
 		std::to_string(this->true_iter),
@@ -240,7 +240,7 @@ std::string* Creature:: Action_condition_by_Cell_energy_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Íà êëåòêå",
+		"ĞĞ° ĞºĞ»ĞµÑ‚ĞºĞµ",
 		string_by_dir_for_condition(this->to_dir),
 		std::to_string(this->limit),
 		std::to_string(this->true_iter),
@@ -317,7 +317,7 @@ std::string* Creature::Action_condition_by_Creature_energy_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Ó ñóùåñòâà",
+		"Ğ£ ÑÑƒÑ‰ĞµÑÑ‚Ğ²Ğ°",
 		string_by_dir_for_condition(this->to_dir),
 		std::to_string(this->limit),
 		std::to_string(this->true_iter),
@@ -360,7 +360,7 @@ std::string* Creature::Action_change_iter_global::draw_myself()
 {
 	return new std::string[5]
 	{
-		"Ïåğåõîä",
+		"ĞŸĞµÑ€ĞµÑ…Ğ¾Ğ´",
 		"",
 		"",
 		std::to_string(this->iter),

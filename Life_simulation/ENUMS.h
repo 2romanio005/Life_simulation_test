@@ -6,7 +6,7 @@ enum TYPE_CREATURE
 	HERBIVORE,
 	SCAVENGER,
 
-	Void    // закреплено как последнее для % 
+	Void    // Р·Р°РєСЂРµРїР»РµРЅРѕ РєР°Рє РїРѕСЃР»РµРґРЅРµРµ РґР»СЏ % 
 };
 
 enum TYPE_ACTION
@@ -18,7 +18,7 @@ enum TYPE_ACTION
 	CONDITION_BY_TYPE_CREATURE,
 	CONDITION_BY_CELL_ENERGY,
 	CONDITION_BY_CREATURE_ENERGY,
-	CHANGE_ITER   // не испльзуется // закреплено как последнее для % 
+	CHANGE_ITER   // РЅРµ РёСЃРїР»СЊР·СѓРµС‚СЃСЏ // Р·Р°РєСЂРµРїР»РµРЅРѕ РєР°Рє РїРѕСЃР»РµРґРЅРµРµ РґР»СЏ % 
 };
 
 enum DIRECTION

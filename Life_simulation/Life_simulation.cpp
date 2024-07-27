@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Definition.h"
 #include "MainConnection.h"
 #include "Creature_Plant.h"

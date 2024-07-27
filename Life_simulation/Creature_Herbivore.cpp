@@ -10,9 +10,9 @@ Creature_Herbivore::Creature_Herbivore(std::pair<int, int> map_cord, int energy,
 	else {
 		for (auto& act : *brain)
 		{
-			act->set_Creature(this);    // пометил как свой
+			act->set_Creature(this);    // РїРѕРјРµС‚РёР» РєР°Рє СЃРІРѕР№
 		}
-		this->brain = *brain;    // скопировал мозг и хранит как свой
+		this->brain = *brain;    // СЃРєРѕРїРёСЂРѕРІР°Р» РјРѕР·Рі Рё С…СЂР°РЅРёС‚ РєР°Рє СЃРІРѕР№
 	}
 	//this->iter = rand() % this->brain.size();
 }
@@ -52,11 +52,11 @@ TYPE_CREATURE Creature_Herbivore::get_TYPE_CREATURE() {
 	return TYPE_CREATURE::HERBIVORE;
 }
 
-void Creature_Herbivore::brain_mutation(std::vector<Action*>* change_brain, unsigned int mut_iter) // мутирует ген номер mut_iter или мозг дорастает до мутируемго гена
+void Creature_Herbivore::brain_mutation(std::vector<Action*>* change_brain, unsigned int mut_iter) // РјСѓС‚РёСЂСѓРµС‚ РіРµРЅ РЅРѕРјРµСЂ mut_iter РёР»Рё РјРѕР·Рі РґРѕСЂР°СЃС‚Р°РµС‚ РґРѕ РјСѓС‚РёСЂСѓРµРјРіРѕ РіРµРЅР°
 {
-	if (change_brain->size() > mut_iter) {     // если меняемый ген уже создан
-		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {			// возможно поменять часть гена
-			delete (*change_brain)[mut_iter];								// если не получилось, то изменить весь ген
+	if (change_brain->size() > mut_iter) {     // РµСЃР»Рё РјРµРЅСЏРµРјС‹Р№ РіРµРЅ СѓР¶Рµ СЃРѕР·РґР°РЅ
+		if (rand() % 2 || !(*change_brain)[mut_iter]->mutation()) {			// РІРѕР·РјРѕР¶РЅРѕ РїРѕРјРµРЅСЏС‚СЊ С‡Р°СЃС‚СЊ РіРµРЅР°
+			delete (*change_brain)[mut_iter];								// РµСЃР»Рё РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ, С‚Рѕ РёР·РјРµРЅРёС‚СЊ РІРµСЃСЊ РіРµРЅ
 			(*change_brain)[mut_iter] = Creature_Herbivore::get_rand_Action(this, change_brain->size());
 		}
 		return;
@@ -65,7 +65,7 @@ void Creature_Herbivore::brain_mutation(std::vector<Action*>* change_brain, unsi
 	while (mut_iter >= change_brain->size()) {
 		change_brain->push_back(Creature_Herbivore::get_rand_Action(this, mut_iter));
 	}
-	//for (auto& act : this->brain)   // чтобы с большим шансом на новые гены ссылалсь
+	//for (auto& act : this->brain)   // С‡С‚РѕР±С‹ СЃ Р±РѕР»СЊС€РёРј С€Р°РЅСЃРѕРј РЅР° РЅРѕРІС‹Рµ РіРµРЅС‹ СЃСЃС‹Р»Р°Р»СЃСЊ
 	//{
 	//	if (rand() % 2) {
 	//		act->mutation();
@@ -76,7 +76,7 @@ void Creature_Herbivore::brain_mutation(std::vector<Action*>* change_brain, unsi
 
 Action* Creature_Herbivore::get_rand_Action(Creature* creature, unsigned int max_iter)
 {
-	switch (rand() % (TYPE_ACTION::CHANGE_ITER))  // случайное действие с номером до CHANGE_ITER не включительно
+	switch (rand() % (TYPE_ACTION::CHANGE_ITER))  // СЃР»СѓС‡Р°Р№РЅРѕРµ РґРµР№СЃС‚РІРёРµ СЃ РЅРѕРјРµСЂРѕРј РґРѕ CHANGE_ITER РЅРµ РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ
 	{
 	case TYPE_ACTION::GO:
 		return new Creature_Herbivore::Action_go(static_cast<Creature_Herbivore*>(creature));
